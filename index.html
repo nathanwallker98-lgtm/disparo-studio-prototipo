@@ -180,24 +180,33 @@ body{display:block}
 .tagp.rm{text-decoration:none}.tagp em{font-style:normal;font-size:10px;background:#22d3ee33;color:#8df0ff;padding:0 7px;border-radius:99px;margin-left:2px}
 .var.new{background:#22d3ee1f;border-color:#22d3ee77;color:#8df0ff}
 .logo i{box-shadow:0 0 18px #22d3ee55}
+
+.shell{grid-template-columns:1fr}
+.top{border-bottom:1px solid var(--line);margin-bottom:14px}
+.cp{border:1px solid var(--line);border-radius:16px;background:var(--card);margin-bottom:10px;overflow:hidden}
+.cp.open{border-color:var(--line2)}
+.cph{display:flex;align-items:center;gap:20px;padding:16px 20px;cursor:pointer}
+.cph:hover{background:#ffffff05}
+.cn{flex:1;min-width:0}.cn b{display:block;font-size:16px}.cn span{color:var(--dim);font-size:13px}
+.cm{text-align:right;min-width:84px}.cm b{display:block;font-size:18px;font-variant-numeric:tabular-nums}.cm span{font-size:11.5px;color:var(--dim)}
+.chev{color:var(--dim);font-style:normal;width:14px;text-align:center}
+.cpd{padding:2px 20px 20px;border-top:1px solid var(--line)}
+.mg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.mi{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.mi span{font-size:12px;color:var(--dim)}.mi b{display:block;font-size:22px;font-variant-numeric:tabular-nums}.mi small{color:var(--mut);font-size:12px}
+.cpx{display:grid;grid-template-columns:1.3fr 1fr;gap:24px}
+.cpx h5{margin:0 0 8px;font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.cpx table th{padding:6px 8px}.cpx table td{padding:7px 8px}
+.empty{text-align:center;color:var(--mut);padding:50px 0}
+@media(max-width:760px){.mg{grid-template-columns:repeat(2,1fr)}.cpx{grid-template-columns:1fr}.cm{display:none}}
 </style>
 </head>
 <body>
 <div class="shell">
-<nav class="sb">
-  <div class="logo"><i>◆</i>Disparo Studio</div>
-  <button class="nv on" data-a="view" data-v="dash">▦ Dashboard</button>
-  <button class="nv" data-a="view" data-v="camp">☰ Campanhas</button>
-  <button class="nv" data-a="view" data-v="tags">◈ Etiquetas</button>
-  <button class="nv cta" data-a="view" data-v="new">+ Nova campanha</button>
-  <div class="foot">Protótipo com dados de demonstração. Nenhuma mensagem é enviada.</div>
-</nav>
 <div class="mainc">
-  <div class="top"><div class="sp"></div><div class="demo">Demo · conta com <select id="acct"><option>3</option><option selected>8</option><option>12</option><option>20</option><option>30</option></select> chips</div></div>
-  <div class="pg on" id="vDash"></div>
-  <div class="pg" id="vCamp"></div>
-  <div class="pg" id="vTags"></div>
-  <div class="pg" id="vNew"><div class="steps" id="steps"></div>
+  <div class="top"><div class="logo"><i>◆</i>Disparo Studio</div><div class="sp"></div><div class="demo">Demo · conta com <select id="acct"><option>3</option><option selected>8</option><option>12</option><option>20</option><option>30</option></select> chips</div></div>
+  <div class="pg on" id="vCamp"></div>
+  <div class="pg" id="vNew"><div class="pgw" style="padding-top:0;padding-bottom:0;max-width:860px"><button class="btn ghost" data-a="view" data-v="camp" style="padding-left:0">← Campanhas</button></div><div class="steps" id="steps"></div>
     <div class="wrap"><div class="stage" id="stage"></div><aside class="side" id="side"></aside></div></div>
 </div></div>
 <input type="file" id="file" accept=".csv,.tsv,.txt" hidden>
@@ -422,10 +431,10 @@ function running(sc){const R=S.run,n=sc.ev.filter(e=>e.t<=R.t).length,tot=sc.ev.
   $('#stage').innerHTML=`<div class="done"><div class="ok" style="color:var(--ok)">${R.t>=sc.total?'✓':'●'}</div><h1>${R.t>=sc.total?'Campanha concluída':'Campanha em andamento'}</h1><p class="sub">Simulação acelerada. Nenhuma mensagem foi enviada de verdade.</p></div>
   <div class="kp"><div><b>${n}</b><span>enviadas</span></div><div><b>${tot-n}</b><span>na fila</span></div><div><b>${clock(R.t)}</b><span>hora simulada</span></div></div>
   <div class="bar"><i style="width:${tot?n/tot*100:0}%"></i></div><div class="tl" style="margin-top:0"><canvas id="cvr"></canvas></div>
-  <div class="nav"><button class="btn" data-a="pause">${R.on?'⏸ Pausar':'▶ Retomar'}</button><button class="btn ghost" data-a="newc">Nova campanha</button></div>`;
+  <div class="nav"><button class="btn" data-a="pause">${R.on?'⏸ Pausar':'▶ Retomar'}</button><button class="btn pri" data-a="view" data-v="camp">Ver campanhas</button></div>`;
   draw('cvr',sc,R.t);steps();side()}
 function loopRun(){const sc=sched(S);let last=performance.now();
-  const f=now=>{const R=S.run;if(!R||!R.on)return;R.t+=(now-last)/1000*(sc.total/25||1);last=now;if(R.t>=sc.total){R.t=sc.total;R.on=false}running(sc);if(R.on)requestAnimationFrame(f)};requestAnimationFrame(f)}
+  const f=now=>{const R=S.run;if(!R||!R.on)return;R.t+=(now-last)/1000*(sc.total/25||1);last=now;if(R.t>=sc.total){R.t=sc.total;R.on=false}if(R.camp&&R.t>=sc.total){R.camp.st='Concluída';R.camp.p=1}running(sc);if(VIEW==='camp'&&(now-(window._lr||0)>450||!R.on)){window._lr=now;renderCamps()}if(R.on)requestAnimationFrame(f)};requestAnimationFrame(f)}
 function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
 
 /* ---------- eventos ---------- */
@@ -455,7 +464,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t
     else if(k==='fit'){const win=(S.endH-S.startH)*60;S.limit=Math.max(1,sc.ev.filter(e=>e.t<=win).length)}
     else if(k==='gap'){S.gapLo=5;S.gapHi=Math.max(8,S.gapHi);S.pace='custom'}
     recompute();toast('Plano ajustado');stage()}
-  else if(a==='approve'){const sc0=sched(S);CAMPS.unshift({n:campName(),d:'hoje',sent:sc0.ev.length,resp:'—',opp:'—',st:'Em andamento'});registerTags();S.run={t:0,on:true};stage();loopRun()}
+  else if(a==='approve'){const c=mkCamp();CAMPS.unshift(c);S.copen=c.id;registerTags();S.run={t:0,on:true,camp:c};stage();loopRun()}
   else if(a==='pause'){S.run.on=!S.run.on;if(S.run.on)loopRun();else running(sched(S))}
   else if(a==='newc'){S.run=null;S.step=1;stage()}
 });
@@ -478,7 +487,19 @@ S.sel=new Set(chips.slice(0,S.acct).map(c=>c.i));stage();
 /* ================= DASHBOARD ================= */
 let VIEW='dash';
 const D={tab:'ov',per:30,ticket:497};
-const CAMPS=[{n:'Reativação · Comunidade',d:'18/11',sent:412,resp:'27%',opp:44,st:'Concluída'},{n:'Recuperação de boleto',d:'15/11',sent:238,resp:'31%',opp:39,st:'Concluída'},{n:'Lista de espera',d:'12/11',sent:149,resp:'35%',opp:28,st:'Concluída'},{n:'Reengajamento 30 dias',d:'08/11',sent:560,resp:'19%',opp:36,st:'Concluída'}];
+let CID=4;
+const CAMPS=[
+ {id:1,n:'Reativação · Comunidade',d:'18/11',planned:412,chips:8,start:'09:00',end:'14:40',tags:['comunidade-alma'],rem:[],vars:[{n:'Curta 1',c:138},{n:'Balões 1',c:137},{n:'Balões 2',c:137}],st:'Concluída'},
+ {id:2,n:'Recuperação de boleto',d:'15/11',planned:238,chips:6,start:'09:00',end:'13:10',tags:['boleto-recuperacao'],rem:[],vars:[{n:'Curta 1',c:119},{n:'Balões 1',c:119}],st:'Concluída'},
+ {id:3,n:'Lista de espera',d:'12/11',planned:149,chips:4,start:'10:00',end:'13:30',tags:['lista-de-espera'],rem:['interessado'],vars:[{n:'Curta 1',c:75},{n:'Balões 1',c:74}],st:'Concluída'},
+ {id:4,n:'Reengajamento 30 dias',d:'08/11',planned:560,chips:10,start:'09:00',end:'16:20',tags:['reengajamento'],rem:[],vars:[{n:'Curta 1',c:187},{n:'Balões 1',c:187},{n:'Balões 2',c:186}],st:'Concluída'}];
+function hs(s){let h=7;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return h}
+function progress(c){if(S.run&&S.run.camp===c){const sc=sched(S);return sc.total?Math.min(1,S.run.t/sc.total):1}return c.p===undefined?1:c.p}
+function campStatus(c){if(S.run&&S.run.camp===c){const sc=sched(S);return S.run.t>=sc.total?'Concluída':S.run.on?'Em andamento':'Pausada'}return c.st}
+function cstats(c,p){const r=rng(hs(c.n)+c.planned),sent=Math.round(c.planned*p),fail=Math.round(sent*(.012+r()*.02)),deliv=sent-fail,read=Math.round(deliv*(.76+r()*.12)),resp=Math.min(read,Math.round(deliv*(.2+r()*.12))),out=Math.round(deliv*(.002+r()*.004));return{sent,fail,deliv,read,resp,out,rr:pct(resp,deliv)}}
+function mkCamp(){const sc=sched(S),cnt=modelCounts();return{id:++CID,n:campName(),d:'hoje',planned:S.nLeads,chips:sc.a.length,start:clock(0).slice(0,5),end:clock(sc.total).slice(0,5),tags:S.lt.slice(),rem:S.lr.slice(),vars:elig().map(m=>({n:lab(m),c:cnt[S.models.indexOf(m)]})),st:'Em andamento'}}
+function newCampaign(){if(S.run&&S.run.camp){const c=S.run.camp;c.p=progress(c);c.st=c.p>=1?'Concluída':'Interrompida'}
+  S.run=null;S.step=1;S.cname='';S.lt=[];S.lr=[];S.tmode='add';S.data=null;S.limit=null;S.bulk=null;recompute();showView('new')}
 const brl=n=>'R$ '+Math.round(n).toLocaleString('pt-BR'),fN=n=>Math.round(n).toLocaleString('pt-BR');
 const pct=(a,b)=>b?(a/b*100):0,p1=v=>v.toFixed(1).replace('.',',')+'%';
 function gen(per,seed){const r=rng(seed),days=[];for(let i=0;i<per;i++){const dow=i%7,w=(dow===5||dow===6)?.45:1,sent=Math.round((95+r()*70)*w),deliv=Math.round(sent*(.965+r()*.02)),resp=Math.round(deliv*(.22+r()*.07)),intr=Math.round(resp*(.30+r()*.08)),opp=Math.round(intr*(.42+r()*.12)),sale=Math.round(opp*(.18+r()*.10));days.push({sent,deliv,resp,intr,opp,sale})}return days}
@@ -544,14 +565,19 @@ function renderDash(){
       <table><thead><tr><th>Chip</th><th>Saúde</th><th>Enviadas no período</th><th>Falhas</th><th>Uso do limite hoje</th></tr></thead><tbody>${chs.map(c=>{const e=Math.round(T.sent/chs.length*(.7+rr()*.6)),fl=(c.h==='boa'?.8:c.h==='atenção'?2.4:1.6)+rr()*.5,u=Math.round(20+rr()*65);return `<tr><td><span style="color:${col(c.i)}">●</span> Chip ${c.i+1}</td><td><span class="pill2 ${c.h==='boa'?'ok':c.h==='atenção'?'warn':''}">${c.h}</span></td><td>${fN(e)}</td><td>${p1(fl)}</td><td><div style="height:7px;background:#ffffff12;border-radius:9px;width:120px;overflow:hidden"><div style="width:${u}%;height:100%;background:${col(c.i)}"></div></div></td></tr>`}).join('')}</tbody></table></div>`}
   $('#vDash').innerHTML=`<div class="pgw">${head}${b}</div>`}
 function renderCamps(){
-  $('#vCamp').innerHTML=`<div class="pgw"><div class="dh"><h1>Campanhas</h1><div style="flex:1"></div><button class="btn pri" data-a="view" data-v="new">+ Nova campanha</button></div>
-  <div class="pn"><table><thead><tr><th>Campanha</th><th>Data</th><th>Enviadas</th><th>Resposta</th><th>Oportunidades</th><th>Situação</th></tr></thead><tbody>${CAMPS.map(c=>`<tr><td><b>${esc(c.n)}</b></td><td>${c.d}</td><td>${fN(c.sent)}</td><td>${c.resp}</td><td>${c.opp}</td><td><span class="pill2 ${c.st==='Concluída'?'ok':'warn'}">${c.st}</span></td></tr>`).join('')}</tbody></table></div></div>`}
-function showView(v){VIEW=v;document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
-  $({dash:'#vDash',camp:'#vCamp',tags:'#vTags',new:'#vNew'}[v]).classList.add('on');
-  document.querySelectorAll('.nv[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v&&!b.classList.contains('cta')));
-  if(v==='dash')renderDash();else if(v==='camp')renderCamps();else if(v==='tags')renderTags();else{if(S.run&&S.run.t>=sched(S).total){S.run=null;S.step=1}stage()}}
+  const rows=CAMPS.map(c=>{const p=progress(c),s=cstats(c,p),open=S.copen===c.id,st=campStatus(c);
+    let det='';
+    if(open){const vr=c.vars.map(v=>{const rv=rng(hs(c.n+v.n)),rr=s.rr*(.8+rv()*.4);return{n:v.n,sent:Math.round(s.sent*v.c/Math.max(1,c.planned)),rr}}),best=vr.reduce((a,b)=>b.rr>a.rr?b:a,vr[0]||{rr:0});
+      const M=[['Planejados',fN(c.planned),''],['Enviados',fN(s.sent),p1(pct(s.sent,c.planned))+' do plano'],['Falhas',fN(s.fail),p1(pct(s.fail,s.sent))+' dos enviados'],['Entregues',fN(s.deliv),p1(pct(s.deliv,s.sent))],
+        ['Aberturas',fN(s.read),p1(pct(s.read,s.deliv))+' das entregues'],['Responderam',fN(s.resp),''],['Taxa de resposta',p1(s.rr),'das entregues'],['Pediram para sair',fN(s.out),'já removidos']];
+      det=`<div class="cpd"><div class="mg">${M.map(m=>`<div class="mi"><span>${m[0]}</span><b>${m[1]}</b><small>${m[2]||'&nbsp;'}</small></div>`).join('')}</div>
+      <div class="cpx"><div><h5>Por variação</h5><table><thead><tr><th>Variação</th><th>Enviados</th><th>Resposta</th></tr></thead><tbody>${vr.map(v=>`<tr><td>${esc(v.n)}${vr.length>1&&v===best?' <span class="pill2 ok">melhor</span>':''}</td><td>${fN(v.sent)}</td><td>${p1(v.rr)}</td></tr>`).join('')}</tbody></table></div>
+      <div><h5>Detalhes</h5><table><tbody><tr><td class="hint">Chips</td><td>${c.chips}</td></tr><tr><td class="hint">Horário</td><td>${c.start} às ${c.end}</td></tr><tr><td class="hint">Etiquetas</td><td>${c.tags.map(t=>`<span class="tagp" style="--tc:${tagColor(t)}">${esc(t)}</span>`).join(' ')||'—'}${c.rem.map(t=>` <span class="tagp rm" style="--tc:#fb7185">− ${esc(t)}</span>`).join('')}</td></tr></tbody></table></div></div></div>`}
+    return `<div class="cp ${open?'open':''}"><div class="cph" data-a="copen" data-id="${c.id}"><div class="cn"><b>${esc(c.n)}</b><span>${c.d}</span></div><span class="pill2 ${st==='Concluída'?'ok':st==='Interrompida'?'':'warn'}">${st}</span><div class="cm"><b>${fN(s.sent)}</b><span>enviadas</span></div><div class="cm"><b>${p1(s.rr)}</b><span>resposta</span></div><i class="chev">${open?'▴':'▾'}</i></div>${det}</div>`}).join('');
+  $('#vCamp').innerHTML=`<div class="pgw" style="max-width:900px"><div class="dh"><h1>Campanhas</h1><div style="flex:1"></div><button class="btn pri" data-a="view" data-v="new">+ Nova campanha</button></div>${rows||'<div class="empty">Nenhuma campanha ainda.</div>'}</div>`}
+function showView(v){VIEW=v;document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));$(v==='new'?'#vNew':'#vCamp').classList.add('on');if(v==='new')stage();else renderCamps()}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a;
-  if(a==='view')showView(t.dataset.v);
+  if(a==='view'){if(t.dataset.v==='new')newCampaign();else showView(t.dataset.v)}
   else if(a==='dper'){D.per=+t.dataset.v;renderDash()}
   else if(a==='dtab'){D.tab=t.dataset.k;renderDash()}
   else if(a==='open')toast('Abriria a conversa no atendimento (simulação)')});
@@ -673,7 +699,8 @@ document.addEventListener('input',e=>{const t=e.target;
   if(t.id==='tin'){const p=document.getElementById('tpool');if(p)p.innerHTML=poolHtml(t.value)}
   else if(t.id==='cn'){S.cname=t.value;const b=document.querySelector('#stage [data-a=next]');if(b)b.disabled=!S.cname.trim();steps();side()}});
 
-showView('dash');
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a="copen"]');if(!t)return;const id=+t.dataset.id;S.copen=S.copen===id?null:id;renderCamps()});
+showView('camp');
 
 </script>
 </body>

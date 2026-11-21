@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nova campanha · Disparo Studio</title>
+<style>
+:root{color-scheme:dark;--bg:#060a14;--card:#0b1222;--card2:#121c34;--line:#1b2644;--line2:#2a3657;--tx:#e8eefc;--mut:#8c9bbd;--dim:#5d6b8c;--acc:#8b5cf6;--acc2:#22d3ee;--ok:#34d399;--warn:#fbbf24;--bad:#fb7185}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(rgba(120,160,255,.035) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(90deg,rgba(120,160,255,.035) 1px,transparent 1px) 0 0/44px 44px,radial-gradient(900px 600px at 10% -10%,rgba(34,211,238,.14),transparent 60%),radial-gradient(900px 700px at 100% 10%,rgba(139,92,246,.16),transparent 60%),var(--bg);background-attachment:fixed;color:var(--tx);font:15px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}
+.top{display:flex;align-items:center;gap:12px;padding:14px 28px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700}
+.logo i{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-style:normal;color:#05070a}
+.sp{flex:1}.demo{font-size:12px;color:var(--dim);display:flex;gap:6px;align-items:center}
+.demo select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:4px 8px}
+.steps{display:flex;gap:8px;justify-content:center;margin:6px auto 22px;max-width:860px;padding:0 20px}
+.stp{flex:1;display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--dim);font-weight:600;font-size:13.5px;cursor:pointer}
+.stp b{width:24px;height:24px;border-radius:50%;background:#ffffff12;display:grid;place-items:center;font-size:12px;flex:none}
+.stp.on{border-color:var(--acc);color:var(--tx);box-shadow:0 0 0 3px #8b5cf622}.stp.on b{background:var(--acc);color:#fff}
+.stp.done{color:var(--mut)}.stp.done b{background:var(--ok);color:#05070a}.stp.lock{opacity:.4;cursor:not-allowed}
+.wrap{display:grid;grid-template-columns:1fr 290px;gap:20px;max-width:1100px;margin:0 auto;padding:0 24px 60px;align-items:start}
+.stage{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;padding:28px;min-width:0}
+h1{font-size:24px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 22px}
+.side{position:sticky;top:16px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.side h3{margin:0 0 12px;font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}.row span:first-child{color:var(--mut)}.row b{text-align:right}
+.end{margin-top:12px;padding:12px;border-radius:12px;background:linear-gradient(135deg,#8b5cf622,#22d3ee14);border:1px solid #8b5cf644;text-align:center}
+.end b{display:block;font-size:26px}.end span{font-size:12px;color:var(--mut)}
+.btn{border:1px solid var(--line2);background:var(--card2);padding:10px 18px;border-radius:12px;font-weight:650}
+.btn:hover{border-color:var(--acc)}.btn.sm{padding:6px 12px;font-size:13px;border-radius:10px}
+.btn.pri{background:linear-gradient(135deg,var(--acc),#7449e8);border-color:transparent;color:#fff;box-shadow:0 8px 26px #7449e855}
+.btn.pri:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}.btn.ghost{background:none;border-color:transparent;color:var(--mut)}
+.nav{display:flex;justify-content:space-between;margin-top:26px}
+.lbl{font-size:13px;color:var(--mut);margin:18px 0 8px;font-weight:600}
+.q{padding:6px 14px;border-radius:99px;border:1px solid var(--line2);background:none;color:var(--mut);font-size:13px}.q:hover{border-color:var(--acc);color:var(--tx)}
+.drop{border:2px dashed var(--line2);border-radius:18px;padding:38px 20px;text-align:center;background:var(--bg);transition:.15s;cursor:pointer}
+.drop:hover,.drop.over{border-color:var(--acc);background:#8b5cf612}
+.drop .ic{font-size:34px}.drop b{display:block;font-size:17px;margin:6px 0 2px}.drop span{color:var(--mut);font-size:13px}
+.alts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.stats div{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 14px}.stats b{display:block;font-size:24px}.stats span{font-size:12px;color:var(--dim)}
+.file{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.file .ic{width:38px;height:38px;border-radius:10px;background:#34d39922;display:grid;place-items:center;color:var(--ok);font-size:18px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);font-size:13.5px}th{color:var(--dim);font-weight:600;font-size:12px}
+.tbl{background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:auto}
+select.role{background:var(--card);border:1px solid var(--line2);border-radius:9px;padding:6px 8px;min-width:160px}
+.badge{font-size:11.5px;padding:2px 9px;border-radius:99px;font-weight:600}
+.badge.ok{background:#34d39922;color:var(--ok)}.badge.bad{background:#fb718522;color:var(--bad)}.badge.warn{background:#fbbf2422;color:var(--warn)}
+.var{display:inline-block;padding:3px 10px;border-radius:8px;background:#8b5cf622;border:1px solid #8b5cf655;color:#c4b5fd;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;margin:2px 4px 2px 0;cursor:pointer}
+.var:hover{background:#8b5cf644}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px}
+.cc{padding:9px 6px;border-radius:12px;border:1.5px solid var(--line2);background:var(--bg);text-align:center;font-weight:650;font-size:13px;cursor:pointer}
+.cc.on{border-color:var(--acc);background:#8b5cf618}.cc small{display:block;font-weight:500;color:var(--dim);font-size:11px}
+.cc i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opt{border:1.5px solid var(--line2);border-radius:16px;padding:16px;background:var(--bg);text-align:left;transition:.15s}
+.opt:hover{border-color:#8b5cf688}.opt.on{border-color:var(--acc);background:#8b5cf614;box-shadow:0 0 0 3px #8b5cf622}
+.opt h4{margin:0 0 4px;font-size:16px}.opt p{margin:0;color:var(--mut);font-size:13px}
+.opt .big{margin-top:12px;font-size:13px;padding-top:10px;border-top:1px solid var(--line)}.opt .big b{color:var(--acc2)}
+.tag{font-size:11px;padding:2px 8px;border-radius:99px;background:#34d39922;color:var(--ok);margin-left:6px;font-weight:600}
+textarea{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:11px 13px;resize:vertical;min-height:70px}
+textarea:focus,input:focus{outline:none;border-color:var(--acc2)}
+.cols{display:grid;grid-template-columns:1fr 250px;gap:22px}
+.phone{border:1px solid var(--line2);border-radius:26px;padding:14px 12px;background:linear-gradient(180deg,#0e1f1a,#0a1612)}
+.phone .hd{text-align:center;font-size:12px;color:#9fd8c4;border-bottom:1px solid #ffffff14;padding-bottom:8px;margin-bottom:8px}
+.bub{background:#1d3a30;color:#e5fff4;border-radius:12px 12px 12px 3px;padding:7px 11px;margin:5px 0;font-size:13px;max-width:92%}
+.seg{display:inline-flex;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:3px}
+.seg button{border:0;background:none;padding:8px 16px;border-radius:9px;color:var(--mut);font-weight:600}.seg button.on{background:#8b5cf630;color:var(--tx)}
+details.adv{margin-top:16px;border:1px solid var(--line);border-radius:14px;padding:4px 16px;background:var(--bg)}
+details.adv summary{cursor:pointer;padding:10px 0;color:var(--mut);font-weight:600;list-style:none}
+details.adv summary::before{content:"▸ "}details[open].adv summary::before{content:"▾ "}
+.fine{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:6px 0 16px}
+.fine label{font-size:12.5px;color:var(--mut);display:block;margin-bottom:4px}.fine .in{display:flex;align-items:center;gap:6px}
+.fine input,.fine select,.lim input{width:74px;background:var(--card);border:1px solid var(--line2);border-radius:9px;padding:7px 8px}.fine select{width:auto}
+canvas{display:block;width:100%;border-radius:12px;background:#050813}
+.tl{margin-top:18px}
+.alert{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;margin-top:10px;border:1px solid var(--line)}
+.alert.bad{border-color:#fb718570;background:#fb718512}.alert.warn{border-color:#fbbf2460;background:#fbbf2410}.alert.ok{border-color:#34d39950;background:#34d39910}.alert .t{flex:1}
+.hint{font-size:12.5px;color:var(--dim)}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.kp div{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px}.kp b{display:block;font-size:26px}.kp span{font-size:12px;color:var(--dim)}
+.bar{height:10px;background:#ffffff12;border-radius:9px;overflow:hidden;margin-bottom:16px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+.done{text-align:center;padding:10px 0 4px}.done .ok{font-size:38px}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--card2);border:1px solid var(--acc);padding:12px 16px;border-radius:12px;z-index:9}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.side{position:static}.opts,.cols,.stats{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}.steps .stp span{display:none}}
+
+/* shell */
+body{display:block}
+.shell{display:grid;grid-template-columns:224px 1fr;min-height:100vh}
+.sb{border-right:1px solid var(--line);padding:18px 14px;background:#080e1c;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px}
+.sb .logo{margin:2px 8px 18px}
+.nv{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid transparent;background:none;color:var(--mut);font-weight:600;text-align:left;width:100%}
+.nv:hover{background:#ffffff08;color:var(--tx)}.nv.on{background:linear-gradient(90deg,#8b5cf626,#22d3ee12);border-color:#8b5cf644;color:var(--tx)}
+.nv.cta{margin-top:10px;background:linear-gradient(135deg,var(--acc),#7449e8);color:#fff;justify-content:center;box-shadow:0 8px 24px #7449e844}
+.sb .foot{margin-top:auto;font-size:11.5px;color:var(--dim);border:1px dashed var(--line2);border-radius:12px;padding:10px}
+.mainc{min-width:0}
+.pg{display:none}.pg.on{display:block}
+.pgw{max-width:1100px;margin:0 auto;padding:6px 24px 60px}
+.dh{display:flex;align-items:center;gap:14px;margin:6px 0 16px;flex-wrap:wrap}.dh h1{margin:0}
+.tabs2{display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.tb{background:none;border:0;border-bottom:2px solid transparent;padding:10px 16px;color:var(--mut);font-weight:650;margin-bottom:-1px}.tb.on{color:var(--tx);border-color:var(--acc)}
+.hero{display:grid;grid-template-columns:1fr 250px;gap:20px;background:linear-gradient(135deg,#8b5cf61f,#22d3ee10);border:1px solid #8b5cf644;border-radius:20px;padding:24px;margin-bottom:16px}
+.hero p.st{font-size:19px;line-height:1.5;margin:0 0 14px}.hero p.st b{color:var(--acc2)}
+.disc{margin:0;padding:0;list-style:none}.disc li{padding:6px 0;color:var(--mut);font-size:14px}.disc li::before{content:"✦ ";color:var(--acc2)}
+.score{text-align:center;border-left:1px solid #ffffff14;padding-left:20px}
+.score svg{width:130px;height:130px}.score .tt{font-weight:700;margin-top:2px}.score .ss{font-size:12px;color:var(--mut);line-height:1.5}
+.k4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kc{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:16px}
+.kc span.l{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}.kc b.v{display:block;font-size:30px;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.kc small{color:var(--mut);font-size:12.5px}
+.dl{font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:6px}.dl.up{background:#34d39922;color:var(--ok)}.dl.dn{background:#fb718522;color:var(--bad)}
+.pn{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px}
+.pn h3{margin:0 0 4px;font-size:16px}.pn .sb2{color:var(--mut);font-size:13px;margin:0 0 14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fn{display:grid;grid-template-columns:120px 1fr 150px;gap:12px;align-items:center;padding:6px 0}
+.fn .bar2{height:26px;border-radius:8px;background:linear-gradient(90deg,var(--acc),var(--acc2));min-width:6px}
+.fn .n{font-weight:700}.fn .c{color:var(--mut);font-size:12.5px}
+.opp{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.opp:last-child{border:0}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#05070a;flex:none}
+.opp .m{flex:1;min-width:0}.opp .m b{display:block}.opp .m span{color:var(--mut);font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.loss{display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:14px;border:1px solid var(--line);background:var(--bg);margin-bottom:10px}
+.loss.hot{border-color:#fb718566;background:#fb718510}.loss.good{border-color:#34d39944;background:#34d39910}
+.loss .big2{font-size:26px;font-weight:800;min-width:56px}.loss .t{flex:1}.loss .t b{display:block}.loss .t span{color:var(--mut);font-size:13px}
+.brow{display:grid;grid-template-columns:110px 1fr 56px;gap:10px;align-items:center;padding:5px 0;font-size:13.5px}
+.brow .b{height:14px;border-radius:7px;background:#ffffff12;overflow:hidden}.brow .b i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:7px}.brow .b i.best{background:linear-gradient(90deg,#34d399,#22d3ee)}
+.note{font-size:12px;color:var(--dim);margin-top:10px}
+.pill2{font-size:12px;padding:3px 10px;border-radius:99px;border:1px solid var(--line2);color:var(--mut)}
+.pill2.ok{color:var(--ok);border-color:#34d39955;background:#34d39911}.pill2.warn{color:var(--warn);border-color:#fbbf2455;background:#fbbf2411}.pill2.bad{color:var(--bad);border-color:#fb718566}
+.seg2{display:inline-flex;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:3px}.seg2 button{border:0;background:none;padding:6px 14px;border-radius:9px;color:var(--mut);font-weight:600}.seg2 button.on{background:#8b5cf630;color:var(--tx)}
+.top{padding:12px 28px}
+@media(max-width:1000px){.shell{grid-template-columns:1fr}.sb{position:static;height:auto;flex-direction:row;flex-wrap:wrap}.sb .foot{display:none}.hero,.g2{grid-template-columns:1fr}.k4{grid-template-columns:1fr 1fr}.score{border:0;padding:0}.fn{grid-template-columns:90px 1fr 110px}}
+
+.mgrid{display:grid;grid-template-columns:250px 1fr;gap:18px;align-items:start}
+.mlist{display:flex;flex-direction:column;gap:8px;max-height:430px;overflow:auto;padding-right:2px}
+.mc{border:1.5px solid var(--line2);border-radius:14px;padding:10px 12px;background:var(--bg);cursor:pointer}
+.mc.on{border-color:var(--acc);background:#8b5cf614;box-shadow:0 0 0 3px #8b5cf622}.mc.off{opacity:.45}
+.mc .mt{display:flex;justify-content:space-between;gap:8px}.mc .mn{font-size:12px;color:var(--dim)}
+.mc .mp{font-size:12.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:3px 0 6px}
+.mc .mb{display:flex;justify-content:space-between;align-items:center}
+.mact{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.sw{width:38px;height:22px;border-radius:99px;background:#ffffff18;border:1px solid var(--line2);position:relative;cursor:pointer;flex:none;display:inline-block}
+.sw i{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s}
+.sw.on{background:var(--acc)}.sw.on i{left:18px}.sw.lk{opacity:.55;cursor:not-allowed}
+.inp{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:10px 13px}
+.cols2{display:grid;grid-template-columns:1fr 210px;gap:16px}
+.row2{display:flex;gap:8px;margin-top:10px}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px}
+.wgrid label{font-size:12.5px;color:var(--mut);display:flex;justify-content:space-between;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+.wgrid input{width:56px;background:var(--card);border:1px solid var(--line2);border-radius:8px;padding:4px 6px;text-align:right}
+.cols3{display:grid;grid-template-columns:1fr 290px;gap:20px;align-items:start}
+.evr{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--bg);margin-bottom:8px}.evr.off{opacity:.5}
+.evh{display:flex;gap:12px;align-items:flex-start}.evh b{font-size:14px}
+.tagrow{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0 50px;align-items:center}
+.tagp{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12.5px;font-weight:600;color:#fff;background:color-mix(in srgb,var(--tc) 28%,transparent);border:1px solid color-mix(in srgb,var(--tc) 70%,transparent)}
+.tagp u{text-decoration:none;cursor:pointer;opacity:.7}.tagp u:hover{opacity:1}
+.tagp.new{box-shadow:0 0 0 2px #fff3}
+.tgin{background:none;border:1px dashed var(--line2);border-radius:99px;padding:3px 10px;font-size:12.5px;width:120px}
+.chk2{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:14px}.chk2 code{margin-left:auto;font-size:12px;color:var(--acc2);background:#22d3ee14;padding:2px 8px;border-radius:8px}
+.ccard{border:1px solid var(--line2);border-radius:18px;padding:16px;background:linear-gradient(180deg,#121c34,#0b1222);position:sticky;top:14px}
+.ccard h4{margin:0 0 10px;font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.ccard .who{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.kv{font-size:12.5px;display:grid;grid-template-columns:90px 1fr;gap:3px 8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}.kv span{color:var(--dim)}.kv b{font-weight:600;word-break:break-all}
+.url{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--acc2);background:#22d3ee10;border-radius:10px;padding:8px 10px;word-break:break-all;margin-top:8px}
+.srch{max-width:320px}
+@media(max-width:900px){.mgrid,.cols2,.cols3{grid-template-columns:1fr}.ccard{position:static}}
+
+.vsec{margin-bottom:16px}
+.vtabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.vt{min-width:44px;height:38px;border-radius:11px;border:1.5px solid var(--line2);background:var(--bg);font-weight:700;position:relative;padding:0 10px}
+.vt small{display:block;font-size:9.5px;font-weight:500;color:var(--dim);line-height:1;margin-top:-3px}
+.vt.on{border-color:var(--acc);background:#8b5cf622;box-shadow:0 0 0 3px #8b5cf622}.vt.off{opacity:.4}.vt.add{border-style:dashed;color:var(--mut)}
+.vact{display:flex;align-items:center;gap:8px;margin-top:8px}
+.ltbox{border:1px solid var(--line);border-radius:16px;padding:4px 16px 16px;background:var(--bg);margin-top:6px}
+
+.tagbox{border:1.5px solid var(--line2);border-radius:14px;padding:10px 12px;background:var(--bg);margin-top:10px;transition:.15s}
+.tagbox:focus-within{border-color:var(--acc2);box-shadow:0 0 0 3px #22d3ee22}
+.tagbox .tgin{border:0;background:none;flex:1;min-width:180px;width:auto;padding:4px 6px;font-size:14px}.tagbox .tgin:focus{outline:none}
+.tagp.rm{text-decoration:none}.tagp em{font-style:normal;font-size:10px;background:#22d3ee33;color:#8df0ff;padding:0 7px;border-radius:99px;margin-left:2px}
+.var.new{background:#22d3ee1f;border-color:#22d3ee77;color:#8df0ff}
+.logo i{box-shadow:0 0 18px #22d3ee55}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="sb">
+  <div class="logo"><i>◆</i>Disparo Studio</div>
+  <button class="nv on" data-a="view" data-v="dash">▦ Dashboard</button>
+  <button class="nv" data-a="view" data-v="camp">☰ Campanhas</button>
+  <button class="nv" data-a="view" data-v="tags">◈ Etiquetas</button>
+  <button class="nv cta" data-a="view" data-v="new">+ Nova campanha</button>
+  <div class="foot">Protótipo com dados de demonstração. Nenhuma mensagem é enviada.</div>
+</nav>
+<div class="mainc">
+  <div class="top"><div class="sp"></div><div class="demo">Demo · conta com <select id="acct"><option>3</option><option selected>8</option><option>12</option><option>20</option><option>30</option></select> chips</div></div>
+  <div class="pg on" id="vDash"></div>
+  <div class="pg" id="vCamp"></div>
+  <div class="pg" id="vTags"></div>
+  <div class="pg" id="vNew"><div class="steps" id="steps"></div>
+    <div class="wrap"><div class="stage" id="stage"></div><aside class="side" id="side"></aside></div></div>
+</div></div>
+<input type="file" id="file" accept=".csv,.tsv,.txt" hidden>
+
+<script>
+const $=s=>document.querySelector(s);
+const PAL=['#22d3ee','#8b5cf6','#34d399','#fbbf24','#fb7185','#7aa9ff','#f472b6','#8df0ff','#ad90ff','#38bdf8','#818cf8','#a78bfa'];
+const col=i=>PAL[i%PAL.length];
+const PRE={seg:{n:'Seguro',d:'Mais calmo. Protege os chips.',gapLo:8,gapHi:12,batch:3,handoff:6,rest:40},
+           eq:{n:'Equilibrado',d:'Bom ritmo sem pressionar.',gapLo:5,gapHi:8,batch:5,handoff:4,rest:20},
+           rap:{n:'Rápido',d:'Mais pressa. Só com chips saudáveis.',gapLo:3,gapHi:5,batch:8,handoff:2,rest:10}};
+const S={step:1,data:null,roles:[],paste:false,limit:null,pv:0,focus:null,valid:[],stats:null,nLeads:0,
+  acct:8,sel:new Set(),pace:'eq',gapLo:5,gapHi:8,batch:5,handoff:4,rest:20,who:'rev',startH:9,endH:18,
+  fmt:'mix',models:[{id:1,kind:'curta',text:'Oi {nome}, tudo bem? Vi seu interesse e queria te ajudar a dar o próximo passo 😊',on:true},{id:2,kind:'baloes',text:'Oi {nome}, tudo bem?\nAqui é a Luísa\nVi seu interesse na Comunidade\nPosso te explicar rapidinho?',on:true}],vsel:{curta:1,baloes:2},bulk:null,lt:[],lr:[],tmode:'add',ltScope:'all',cname:'',
+  ev:{sent:{on:true,tags:['campanha-{campanha}']},resp:{on:true,tags:['respondeu']},intr:{on:true,tags:['interessado']},optout:{on:true,locked:true,tags:['nao-contactar']},fail:{on:true,tags:['numero-invalido']}},auto:{modelo:true,chip:true,data:false,lista:true},utm:true,sync:true,cst:1,tq:'',run:null};
+const TAGS=[{n:'comunidade-alma',c:1240,camp:'Importação',use:'hoje'},{n:'respondeu',c:818,camp:'Várias',use:'hoje'},{n:'campanha-reativacao-comunidade',c:412,camp:'Reativação · Comunidade',use:'18/11'},{n:'interessado',c:210,camp:'Várias',use:'ontem'},{n:'boleto-recuperacao',c:238,camp:'Recuperação de boleto',use:'15/11'},{n:'cliente',c:312,camp:'Vendas',use:'hoje'},{n:'lead-quente',c:48,camp:'Atendimento',use:'hoje'},{n:'nao-contactar',c:37,camp:'Sistema',use:'ontem',locked:true}];
+const chips=Array.from({length:30},(_,i)=>{const h=i%7===2?'atenção':i%11===5?'nova':'boa';return{i,h,teto:h==='boa'?20:h==='atenção'?10:6}});
+const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const clock=m=>{const t=Math.round(S.startH*60+m),d=Math.floor(t/1440);return String(Math.floor(t/60)%24).padStart(2,'0')+':'+String(t%60).padStart(2,'0')+(d?` +${d}d`:'')};
+const dur=m=>m<60?`${Math.round(m)} min`:`${Math.floor(m/60)}h${String(Math.round(m%60)).padStart(2,'0')}`;
+const lines=()=>[];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim();
+const slug=s=>norm(s).replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'campo';
+
+/* ---------- importação ---------- */
+function parseCSV(text){
+  text=text.replace(/^﻿/,'');const first=text.split(/\r?\n/)[0]||'';
+  const d=[';','\t',','].map(c=>[c,first.split(c).length]).sort((a,b)=>b[1]-a[1])[0][0];
+  const rows=[];let row=[],cur='',q=false;
+  for(let i=0;i<text.length;i++){const ch=text[i];
+    if(q){if(ch==='"'&&text[i+1]==='"'){cur+='"';i++}else if(ch==='"')q=false;else cur+=ch}
+    else if(ch==='"')q=true;else if(ch===d){row.push(cur);cur=''}
+    else if(ch==='\n'||ch==='\r'){if(ch==='\r'&&text[i+1]==='\n')i++;row.push(cur);cur='';if(row.some(x=>x.trim()))rows.push(row);row=[]}
+    else cur+=ch}
+  row.push(cur);if(row.some(x=>x.trim()))rows.push(row);
+  return rows.map(r=>r.map(x=>x.trim()))}
+function normPhone(s){let d=String(s||'').replace(/\D/g,'');while(d.startsWith('0'))d=d.slice(1);
+  if(d.length===11&&d[2]==='9')return'55'+d;
+  if(d.length===13&&d.startsWith('55')&&d[4]==='9')return d;
+  return null}
+const maskPhone=p=>p?`+${p.slice(0,2)} ${p.slice(2,4)} ${p.slice(4,5)}••••-${p.slice(-4)}`:'—';
+const titleCase=s=>String(s||'').trim().toLowerCase().replace(/(^|\s)\S/g,c=>c.toUpperCase());
+function detectRoles(h,rows){
+  const roles=h.map(x=>{const n=norm(x);
+    if(/(^tag|etiqueta|marcador)/.test(n))return'tags';if(/^(nome|name|primeiro nome|cliente|contato)/.test(n))return'nome';
+    if(/(tel|fone|whats|celular|phone|numero)/.test(n))return'telefone';return'extra'});
+  if(!roles.includes('telefone')){let best=-1,bs=0;h.forEach((_,c)=>{const s=rows.slice(0,20).filter(r=>String(r[c]||'').replace(/\D/g,'').length>=10).length;if(s>bs){bs=s;best=c}});if(best>=0&&bs>=3)roles[best]='telefone'}
+  ['nome','telefone','tags'].forEach(k=>{const f=roles.indexOf(k);roles.forEach((r,i)=>{if(r===k&&i!==f)roles[i]='extra'})});
+  return roles}
+function importText(text,name){
+  const all=parseCSV(text);if(all.length<2){toast('Não encontrei linhas na lista. Confira o arquivo.');return}
+  S.data={name,headers:all[0],rows:all.slice(1)};S.roles=detectRoles(S.data.headers,S.data.rows);S.limit=null;S.pv=0;S.paste=false;recompute();stage()}
+function recompute(){
+  const D=S.data;S.valid=[];S.bad=[];if(!D){S.stats=null;S.nLeads=0;return}
+  const iT=S.roles.indexOf('telefone'),iN=S.roles.indexOf('nome'),iG=S.roles.indexOf('tags'),seen=new Set(),st={total:D.rows.length,ok:0,inv:0,dup:0,noname:0};
+  D.rows.forEach((r,n)=>{const tel=iT>=0?normPhone(r[iT]):null,vars={};
+    if(iN>=0)vars.nome=titleCase((r[iN]||'').split(/\s+/)[0]);
+    S.roles.forEach((ro,c)=>{if(ro==='extra')vars[slug(D.headers[c])]=r[c]||''});
+    const nm=iN>=0?r[iN]:'';
+    if(!tel){st.inv++;S.bad.push({n,nome:titleCase(nm),raw:iT>=0?r[iT]:'',why:'telefone inválido'});return}
+    if(seen.has(tel)){st.dup++;S.bad.push({n,nome:titleCase(nm),raw:r[iT],why:'repetido na lista'});return}
+    seen.add(tel);st.ok++;if(iN>=0&&!vars.nome)st.noname++;
+    S.valid.push({nome:vars.nome||'',tel,vars,full:titleCase(nm),tg:iG>=0?String(r[iG]||'').split(/[,;|]/).map(x=>tslug(x)).filter(Boolean):[]})});
+  S.stats=st;S.nLeads=S.limit?Math.min(S.limit,S.valid.length):S.valid.length}
+const varNames=()=>{if(!S.data)return['nome'];const v=[];if(S.roles.includes('nome'))v.push('nome');S.roles.forEach((r,c)=>{if(r==='extra')v.push(slug(S.data.headers[c]))});return v};
+function fill(t,l){let o=t.replace(/\{(\w+)\}/g,(m,k)=>l.vars[k]!==undefined?l.vars[k]:m);return o.replace(/\s+,/g,',').replace(/\s{2,}/g,' ').trim()}
+function sample(){const N=['MARIA','Ana Clara','JOANA','carla','Beatriz','Lúcia','PAULA','Sônia','Rita','Helena','Marta','Vera','CLARA','Elisa','Irene','Teresa','Sara','Laura','Nina','Rosa','Alice','Bruna','Dani','Eva','Fabiana','Gisele','Heloísa','Íris','Júlia','Karina','Lia','Mônica','Nair','Olga','Patrícia','Regina','Sílvia','Tânia','Vânia','Zélia','Amanda','Bianca','Cíntia','Débora','Elaine','Flávia','Graça','Ingrid','Jussara','Kátia'];
+  const C=['Teresina','Parnaíba','Fortaleza','São Luís','Picos'],ddd=['86','85','98'];const out=['nome;telefone;email;cidade;produto'];
+  for(let i=0;i<50;i++){const d=ddd[i%3];let tel=`(${d}) 99${String(100+i*7).slice(-3)}-${String(1000+i*13).slice(-4)}`;
+    if(i%9===4)tel=`${d}99${String(100+i*7).slice(-3)}${String(1000+i*13).slice(-4)}`;
+    out.push(`${N[i]};${tel};${i%4?N[i].split(' ')[0].toLowerCase()+'@email.com':''};${C[i%5]};Comunidade A.L.M.A.`)}
+  out.push('Paula Repetida;(86) 99100-1000;;Teresina;Comunidade A.L.M.A.');out.push('Lead Curto;9999-12;;Picos;Comunidade A.L.M.A.');out.push(';(85) 98877-6655;;Fortaleza;Comunidade A.L.M.A.');out.push('Fixo Antigo;(86) 3222-4455;;Teresina;Comunidade A.L.M.A.');
+  return out.join('\n')}
+function downloadModel(){const b=new Blob(['nome;telefone;cidade;produto\nMaria Souza;(86) 99999-1234;Teresina;Comunidade A.L.M.A.\nAna Lima;(85) 98888-4321;Fortaleza;Comunidade A.L.M.A.\n'],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='modelo_lista_de_contatos.csv';a.click()}
+
+/* ---------- agenda ---------- */
+function fmtOf(i,cfg){return modelIdx(i)}
+function sched(cfg){
+  const a=chips.slice(0,S.acct).filter(c=>S.sel.has(c.i)),N=cfg.nLeads,ev=[],sent={};a.forEach(c=>sent[c.i]=0);
+  if(!a.length||!N)return{ev,over:a.length?0:N,total:0,a};
+  const mk=seed=>{const r=rng(seed);return()=>Math.round(cfg.gapLo+r()*(cfg.gapHi-cfg.gapLo))};let over=0;
+  if(cfg.who==='rev'){const g=mk(7);let t=0,i=0,ci=0;
+    while(i<N&&a.some(c=>sent[c.i]<c.teto)){const c=a[ci];let k=0;
+      while(k<cfg.batch&&i<N&&sent[c.i]<c.teto){ev.push({c:c.i,l:i,t,f:fmtOf(i,cfg)});sent[c.i]++;t+=g();i++;k++}
+      if(k>0)t+=cfg.handoff;ci++;if(ci>=a.length){ci=0;t+=cfg.rest}}over=N-i}
+  else{a.forEach((c,k)=>{const g=mk(31+k);let t=k*3;for(let i=k;i<N;i+=a.length){if(sent[c.i]>=c.teto){over++;continue}ev.push({c:c.i,l:i,t,f:fmtOf(i,cfg)});sent[c.i]++;t+=g()}})}
+  ev.sort((x,y)=>x.t-y.t);return{ev,over,total:ev.length?ev[ev.length-1].t:0,a}}
+function usedText(){return elig().map(m=>m.text).join(' ')}
+function problems(sc){
+  const p=[],win=(S.endH-S.startH)*60,n=sc.a.length;
+  if(!S.nLeads)p.push({k:'bad',t:'Importe uma lista de contatos.'});
+  if(!n)p.push({k:'bad',t:'Escolha pelo menos um chip.'});
+  const un=[...new Set([...usedText().matchAll(/\{(\w+)\}/g)].map(m=>m[1]))].filter(v=>!varNames().includes(v));
+  if(un.length)p.push({k:'bad',t:`A mensagem usa ${un.map(v=>'{'+v+'}').join(', ')}, que não existe na sua lista.`});
+  if(S.stats&&S.stats.noname&&/\{nome\}/.test(usedText()))p.push({k:'warn',t:`${S.stats.noname} contatos sem nome. A mensagem sai sem o nome deles.`});
+  if(sc.over>0)p.push({k:'bad',t:`${sc.over} contatos não cabem: os chips escolhidos atingem o limite do dia.`,fix:'cap',fl:`Reduzir para ${S.nLeads-sc.over}`});
+  const out=sc.ev.filter(e=>e.t>win).length;
+  if(out&&sc.over<=0)p.push({k:'bad',t:`${out} envios passam das ${S.endH}h.`,fix:'fit',fl:'Ajustar para caber'});
+  if(S.gapLo<3)p.push({k:'bad',t:`Intervalo de ${S.gapLo} min é perigoso para os chips.`,fix:'gap',fl:'Usar 5 a 8 min'});
+  else if(S.gapLo<5)p.push({k:'warn',t:'Ritmo rápido: use só com chips saudáveis.'});
+  const E=elig();
+  if(!E.length)p.push({k:'bad',t:'Ative pelo menos uma variação de mensagem.'});
+  E.forEach(m=>{if(!m.text.trim())p.push({k:'bad',t:`Uma variação ${m.kind==='curta'?'curta':'em balões'} está vazia.`})});
+  const ex=E.find(m=>m.kind==='baloes'&&m.text.split('\n').filter(x=>x.trim()).length>4);if(ex)p.push({k:'warn',t:'Uma variação em balões tem mais de 4 linhas. Só as 4 primeiras viram balões.'});
+  if(E.length&&E.length<3&&S.nLeads>100)p.push({k:'warn',t:'Com poucas variações de mensagem o padrão fica repetitivo. Use 3 ou mais.'});
+  if(!S.cname.trim())p.push({k:'bad',t:'Dê um nome à campanha.'});
+  return p}
+const blocked=sc=>problems(sc).some(x=>x.k==='bad');
+
+/* ---------- timeline ---------- */
+function draw(id,sc,playT){
+  const cv=document.getElementById(id);if(!cv)return;const rows=sc.a.length||1,W=cv.parentNode.clientWidth,rh=Math.max(7,Math.min(22,Math.floor(260/rows))),H=26+rows*rh,d=devicePixelRatio||1;
+  cv.width=W*d;cv.height=H*d;cv.style.height=H+'px';const x=cv.getContext('2d');x.scale(d,d);
+  const win=(S.endH-S.startH)*60,span=Math.max(sc.total,win,60)*1.02,LW=rows<=12?50:8,X=t=>LW+t/span*(W-LW-8),idx={};sc.a.forEach((c,i)=>idx[c.i]=i);
+  x.font='11px system-ui';x.fillStyle='#5d6a82';
+  for(let t=0;t<=span;t+=60){const px=X(t);x.strokeStyle='#1c2848';x.beginPath();x.moveTo(px,18);x.lineTo(px,H);x.stroke();x.fillText(clock(t).slice(0,5),px-12,12)}
+  if(LW>10)sc.a.forEach((c,i)=>{x.fillStyle='#93a0b8';x.font='10px system-ui';x.fillText('Chip '+(c.i+1),4,26+i*rh+rh/2+3)});
+  x.strokeStyle='#fb7185';x.setLineDash([4,4]);x.beginPath();x.moveTo(X(win),16);x.lineTo(X(win),H);x.stroke();x.setLineDash([]);
+  const bw=Math.max(2.5,(W-LW)/span*1.5),on=playT!=null;
+  sc.ev.forEach(e=>{x.globalAlpha=!on||e.t<=playT?1:.2;x.fillStyle=e.t>win?'#fb7185':col(e.c);x.beginPath();x.roundRect(X(e.t),26+idx[e.c]*rh+1,bw,rh-2,2);x.fill()});x.globalAlpha=1;
+  if(on){x.strokeStyle='#fff';x.lineWidth=1.5;x.beginPath();x.moveTo(X(playT),16);x.lineTo(X(playT),H);x.stroke();x.lineWidth=1}}
+
+/* ---------- telas ---------- */
+const STEPS=['Início','Lista','Chips','Mensagem','Ritmo','Revisar'];
+function steps(){$('#steps').innerHTML=STEPS.map((s,i)=>{const lock=(i>0&&!S.cname.trim())||(i>1&&!S.nLeads);return `<div class="stp ${S.step===i+1?'on':S.step>i+1?'done':''} ${lock?'lock':''}" data-a="go" data-s="${i+1}"><b>${S.step>i+1?'✓':i+1}</b><span>${s}</span></div>`}).join('')}
+function side(){const sc=sched(S);
+  $('#side').innerHTML=`<h3>Sua campanha</h3>
+  <div class="row"><span>Lista</span><b>${S.data?esc(S.data.name.length>18?S.data.name.slice(0,16)+'…':S.data.name):'—'}</b></div>
+  <div class="row"><span>Contatos válidos</span><b>${S.nLeads||'—'}</b></div>
+  <div class="row"><span>Chips</span><b>${sc.a.length}</b></div>
+  <div class="row"><span>Mensagem</span><b>${{mix:'Misturada',curta:'1 balão',baloes:'Vários balões'}[S.fmt]}</b></div>
+  <div class="row"><span>Variações</span><b>${elig().length}</b></div>
+  <div class="row"><span>Ritmo</span><b>${PRE[S.pace]?.n||'Personalizado'}</b></div>
+  <div class="end"><span>Termina às</span><b>${sc.ev.length?clock(sc.total):'—'}</b><span>${sc.ev.length?'duração '+dur(sc.total):''}</span></div>`}
+const ROLE={nome:'Nome',telefone:'Telefone (WhatsApp)',tags:'Etiquetas da planilha',extra:'Variável extra',ignorar:'Ignorar'};
+function stage(){
+  const sc=sched(S),T=$('#stage');
+  if(S.run)return running(sc);
+  if(S.step===1){
+    T.innerHTML=`<h1>Nova campanha</h1><p class="sub">Dê um nome e escolha as etiquetas dos contatos.</p>
+    <div class="lbl" style="margin-top:0">Nome da campanha</div><input class="inp" id="cn" placeholder="Ex.: Dia das Mulheres" value="${esc(S.cname)}" autocomplete="off" autofocus>
+    ${tagsHtml()}
+    <div class="nav"><span></span><button class="btn pri" data-a="next" ${S.cname.trim()?'':'disabled'}>Continuar</button></div>`}
+  else if(S.step===2){
+    if(!S.data){
+      T.innerHTML=`<h1>Quem vai receber?</h1><p class="sub">Importe a lista de contatos. Detectamos as colunas sozinhos.</p>
+      <div class="drop" id="drop" data-a="pick"><div class="ic">⇪</div><b>Arraste sua planilha aqui</b><span>ou clique para escolher um arquivo CSV</span></div>
+      <div class="alts"><button class="q" data-a="paste">Colar da planilha</button><button class="q" data-a="crm">Buscar do CRM</button><button class="q" data-a="ex">Usar lista de exemplo</button><button class="q" data-a="model">Baixar modelo</button></div>
+      ${S.paste?`<div class="lbl">Cole aqui (copie direto do Excel ou Google Planilhas, com a linha de títulos)</div><textarea id="pt" rows="6" placeholder="nome;telefone;cidade&#10;Maria;(86) 99999-1234;Teresina"></textarea><div style="margin-top:10px"><button class="btn pri sm" data-a="doPaste">Importar</button></div>`:''}
+      <div class="hint" style="margin-top:14px">Precisa ter, no mínimo, o <b>telefone</b>. Nome e outras colunas (cidade, produto…) viram variáveis para a mensagem. Para Excel (.xlsx), salve como CSV ou cole direto.</div>
+      <div class="nav"><button class="btn ghost" data-a="back">Voltar</button><button class="btn pri" disabled>Continuar</button></div>`;
+    }else{
+      const st=S.stats,hasTel=S.roles.includes('telefone');
+      const show=S.data.rows.slice(0,5),iT=S.roles.indexOf('telefone'),iN=S.roles.indexOf('nome');
+      const stOf=r=>{const t=iT>=0?normPhone(r[iT]):null;return t?['ok','válido']:['bad','inválido']};
+      T.innerHTML=`<h1>Quem vai receber?</h1><p class="sub">Confira se entendemos sua lista.</p>
+      <div class="file"><div class="ic">▤</div><div style="flex:1"><b>${esc(S.data.name)}</b><div class="hint">${st.total} linhas · ${S.data.headers.length} colunas</div></div><button class="btn sm" data-a="swap">Trocar lista</button></div>
+      <div class="stats"><div><b>${st.ok}</b><span>prontos para enviar</span></div><div><b style="color:${st.inv?'var(--bad)':'var(--tx)'}">${st.inv}</b><span>telefone inválido</span></div><div><b style="color:${st.dup?'var(--warn)':'var(--tx)'}">${st.dup}</b><span>repetidos</span></div><div><b style="color:${st.noname?'var(--warn)':'var(--tx)'}">${st.noname}</b><span>sem nome</span></div></div>
+      ${hasTel?'':'<div class="alert bad"><span>✕</span><span class="t">Escolha qual coluna é o telefone abaixo.</span></div>'}
+      <div class="lbl">Suas colunas <span class="hint">· ajuste só se algo estiver errado</span></div>
+      <div class="tbl"><table><thead><tr><th>Coluna</th><th>Exemplo</th><th>O que é</th></tr></thead><tbody>${S.data.headers.map((h,c)=>`<tr><td><b>${esc(h)}</b></td><td class="hint">${esc(S.data.rows[0]?.[c]||'')}</td><td><select class="role" data-c="${c}">${Object.entries(ROLE).map(([k,v])=>`<option value="${k}" ${S.roles[c]===k?'selected':''}>${v}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table></div>
+      <div class="lbl">Variáveis disponíveis para a mensagem</div><div>${varNames().map(v=>`<span class="var">{${v}}</span>`).join('')||'<span class="hint">Nenhuma</span>'}</div>
+      <div class="lbl">Prévia</div>
+      <div class="tbl"><table><thead><tr><th>#</th><th>Nome</th><th>Telefone</th><th>Situação</th></tr></thead><tbody>${show.map((r,i)=>{const s=stOf(r);return `<tr><td class="hint">${i+1}</td><td>${esc(iN>=0?titleCase(r[iN]):'—')||'<span class="hint">sem nome</span>'}</td><td>${s[0]==='ok'?maskPhone(normPhone(r[iT])):esc(r[iT]||'—')}</td><td><span class="badge ${s[0]}">${s[1]}</span></td></tr>`}).join('')}</tbody></table></div>
+      ${S.bad.length?`<details class="adv"><summary>Ver ${S.bad.length} contatos que ficam de fora</summary><table><tbody>${S.bad.slice(0,8).map(b=>`<tr><td>Linha ${b.n+2}</td><td>${esc(b.nome)||'<span class="hint">sem nome</span>'}</td><td>${esc(b.raw)}</td><td><span class="badge warn">${b.why}</span></td></tr>`).join('')}</tbody></table>${S.bad.length>8?`<div class="hint" style="padding:8px">e mais ${S.bad.length-8}…</div>`:''}</details>`:''}
+      <div class="lbl lim">Enviar só para os primeiros <input type="number" id="lim" min="1" placeholder="todos" value="${S.limit||''}"> <span class="hint">(opcional)</span></div>
+      <div class="nav"><button class="btn ghost" data-a="back">Voltar</button><button class="btn pri" data-a="next" ${st.ok&&hasTel?'':'disabled'}>Continuar com ${S.nLeads} contatos</button></div>`}}
+  else if(S.step===3){
+    const cap=act2().reduce((a,c)=>a+c.teto,0);
+    T.innerHTML=`<h1>Quais chips vão enviar?</h1><p class="sub">Toque para ligar ou desligar cada chip.</p>
+    <div class="lbl" style="display:flex;justify-content:space-between;margin-top:0"><span>${S.sel.size} de ${S.acct} chips</span><span><button class="q" data-a="all">Todos</button> <button class="q" data-a="none">Nenhum</button></span></div>
+    <div class="chips">${chips.slice(0,S.acct).map(c=>`<div class="cc ${S.sel.has(c.i)?'on':''}" data-a="tg" data-i="${c.i}"><i style="background:${c.h==='boa'?'#34d399':c.h==='atenção'?'#fbbf24':'#60a5fa'}"></i>Chip ${c.i+1}<small>${c.h}</small></div>`).join('')}</div>
+    <div class="alert ${cap>=S.nLeads?'ok':'warn'}"><span>${cap>=S.nLeads?'✓':'!'}</span><span class="t">Hoje esses chips aguentam <b>${cap}</b> envios. Sua lista tem <b>${S.nLeads}</b>.</span></div>
+    <div class="hint" style="margin-top:8px">Chips em “atenção” ou “nova” têm limite diário menor, para proteger o número.</div>
+    <div class="nav"><button class="btn ghost" data-a="back">Voltar</button><button class="btn pri" data-a="next" ${S.sel.size?'':'disabled'}>Continuar</button></div>`}
+  else if(S.step===4){
+    const E=elig();
+    T.innerHTML=`<h1>O que vai enviar?</h1><p class="sub">Escolha o formato e ajuste o texto.</p>
+    <div class="opts">${[['curta','Um balão','Uma mensagem só, curta e direta.'],['baloes','Vários balões','Mensagem dividida, como uma conversa.'],['mix','Misturar','Metade de cada. Parece mais natural.']].map(([k,t,d])=>`<button class="opt ${S.fmt===k?'on':''}" data-a="fmt" data-k="${k}"><h4>${t}${k==='mix'?'<span class="tag">recomendado</span>':''}</h4><p>${d}</p></button>`).join('')}</div>
+    <div class="lbl">Variáveis da sua lista <span class="hint">· clique para inserir no texto</span></div><div>${varNames().map(v=>`<span class="var" data-a="ins" data-v="${v}">{${v}}</span>`).join('')}</div>
+    <div class="cols"><div>${S.fmt!=='baloes'?verSec('curta'):''}${S.fmt!=='curta'?verSec('baloes'):''}
+      <div class="hint" style="margin-top:6px">${E.length} variaç${E.length===1?'ão ativa':'ões ativas'}. Cada contato recebe uma, distribuídas por igual${S.fmt==='mix'?' entre as duas versões':''}.</div><div id="pbs"></div></div>
+    <div><div class="lbl" style="margin-top:18px;display:flex;justify-content:space-between"><span>Prévia</span><button class="q" data-a="pv">↻ outro contato</button></div><div class="phone"><div class="hd" id="pvn"></div><div id="prev"></div></div></div></div>
+    <div class="nav"><button class="btn ghost" data-a="back">Voltar</button><button class="btn pri" data-a="next">Continuar</button></div>`;prev();pbs(sc,true)}
+  else if(S.step===5){
+    T.innerHTML=`<h1>Qual o ritmo?</h1><p class="sub">Escolha como os chips vão trabalhar. Você vê o resultado na hora.</p>
+    <div class="opts">${Object.entries(PRE).map(([k,p])=>{const r=sched({...S,...p});return `<button class="opt ${S.pace===k?'on':''}" data-a="pace" data-k="${k}"><h4>${p.n}${k==='eq'?'<span class="tag">recomendado</span>':''}</h4><p>${p.d}</p><div class="big">Termina às <b>${r.ev.length?clock(r.total):'—'}</b></div></button>`}).join('')}</div>
+    <div class="lbl">Como os chips se revezam</div>
+    <div class="seg"><button class="${S.who==='rev'?'on':''}" data-a="who" data-k="rev">Um de cada vez</button><button class="${S.who==='junt'?'on':''}" data-a="who" data-k="junt">Todos juntos</button></div>
+    <div class="hint" style="margin-top:6px">${S.who==='rev'?`Cada chip envia ${S.batch}, passa a vez, e ao chegar no último volta ao primeiro.`:'Todos os chips enviam ao mesmo tempo, cada um no seu ritmo.'}</div>
+    <div class="tl"><canvas id="cv3"></canvas></div><div id="pbs"></div>
+    <details class="adv"><summary>Ajustes finos</summary><div class="fine">
+      <div><label>Tempo entre mensagens</label><div class="in"><input type="number" data-f="gapLo" value="${S.gapLo}" min="1"> a <input type="number" data-f="gapHi" value="${S.gapHi}" min="1"> min</div></div>
+      <div><label>Mensagens por chip antes de trocar</label><div class="in"><input type="number" data-f="batch" value="${S.batch}" min="1" max="30"></div></div>
+      <div><label>Pausa ao trocar de chip</label><div class="in"><input type="number" data-f="handoff" value="${S.handoff}" min="0"> min</div></div>
+      <div><label>Descanso ao voltar ao primeiro chip</label><div class="in"><input type="number" data-f="rest" value="${S.rest}" min="0"> min</div></div>
+      <div><label>Começar às</label><div class="in"><select data-f="startH">${[7,8,9,10,11,12,13,14].map(h=>`<option ${h===S.startH?'selected':''} value="${h}">${h}h</option>`).join('')}</select></div></div>
+      <div><label>Parar às</label><div class="in"><select data-f="endH">${[12,15,17,18,19,20,21].map(h=>`<option ${h===S.endH?'selected':''} value="${h}">${h}h</option>`).join('')}</select></div></div></div></details>
+    <div class="nav"><button class="btn ghost" data-a="back">Voltar</button><button class="btn pri" data-a="next">Continuar</button></div>`;
+    draw('cv3',sc);pbs(sc)}
+  else{
+    const per=sc.ev.length&&sc.a.length?Math.round(sc.ev.length/sc.a.length):0;
+    T.innerHTML=`<h1>Tudo pronto?</h1><p class="sub">Confira o resumo. Nada é enviado antes da sua aprovação.</p>
+    <div class="kp"><div><b>${sc.ev.length}</b><span>mensagens para a lista “${esc(S.data?S.data.name:'')}”</span></div><div><b>${sc.a.length}</b><span>chips · ~${per} cada</span></div><div><b>${sc.ev.length?clock(sc.total):'—'}</b><span>término previsto</span></div></div>
+    <div class="tl" style="margin-top:0"><canvas id="cv4"></canvas></div>
+    <div class="hint" style="margin-top:8px">Cada linha é um chip e cada traço é uma mensagem saindo.</div><div class="lbl">Modelos e etiquetas</div><div>${summaryHtml()}</div><div id="pbs"></div>
+    <div class="nav"><button class="btn ghost" data-a="back">Voltar</button><button class="btn pri" data-a="approve" ${blocked(sc)?'disabled':''}>Aprovar e iniciar</button></div>`;
+    draw('cv4',sc);pbs(sc)}
+  steps();side()}
+const act2=()=>chips.slice(0,S.acct).filter(c=>S.sel.has(c.i));
+function pbs(sc,onlyMsg){let p=problems(sc);if(onlyMsg)p=p.filter(x=>/mensagem|variaç|contatos sem nome/.test(x.t));
+  $('#pbs').innerHTML=p.length?p.map(x=>`<div class="alert ${x.k}"><span>${x.k==='bad'?'✕':'!'}</span><span class="t">${x.t}</span>${x.fix?`<button class="btn" data-a="fix" data-k="${x.fix}">${x.fl}</button>`:''}</div>`).join(''):(onlyMsg?'':`<div class="alert ok"><span>✓</span><span class="t">Tudo certo com este plano.</span></div>`)}
+function prev(){const el=$('#prev');if(!el)return;const l=S.valid[S.pv%Math.max(1,S.valid.length)]||{vars:{nome:'Maria'},nome:'Maria'};$('#pvn').textContent=l.full||l.nome||'Contato';
+  const pick=k=>{const L=ofKind(k);return L.find(m=>m.id===S.vsel[k])||L[0]},sh=pick('curta'),ba=pick('baloes'),a=[];
+  if(S.fmt!=='baloes'&&sh)mlines(sh).forEach(x=>a.push(fill(x,l)));
+  if(S.fmt==='mix'&&sh&&ba)a.push('—');
+  if(S.fmt!=='curta'&&ba)mlines(ba).forEach(x=>a.push(fill(x,l)));
+  el.innerHTML=a.map(t=>t==='—'?'<div class="hint" style="text-align:center">ou</div>':`<div class="bub">${esc(t)}</div>`).join('')}
+function running(sc){const R=S.run,n=sc.ev.filter(e=>e.t<=R.t).length,tot=sc.ev.length;
+  $('#stage').innerHTML=`<div class="done"><div class="ok" style="color:var(--ok)">${R.t>=sc.total?'✓':'●'}</div><h1>${R.t>=sc.total?'Campanha concluída':'Campanha em andamento'}</h1><p class="sub">Simulação acelerada. Nenhuma mensagem foi enviada de verdade.</p></div>
+  <div class="kp"><div><b>${n}</b><span>enviadas</span></div><div><b>${tot-n}</b><span>na fila</span></div><div><b>${clock(R.t)}</b><span>hora simulada</span></div></div>
+  <div class="bar"><i style="width:${tot?n/tot*100:0}%"></i></div><div class="tl" style="margin-top:0"><canvas id="cvr"></canvas></div>
+  <div class="nav"><button class="btn" data-a="pause">${R.on?'⏸ Pausar':'▶ Retomar'}</button><button class="btn ghost" data-a="newc">Nova campanha</button></div>`;
+  draw('cvr',sc,R.t);steps();side()}
+function loopRun(){const sc=sched(S);let last=performance.now();
+  const f=now=>{const R=S.run;if(!R||!R.on)return;R.t+=(now-last)/1000*(sc.total/25||1);last=now;if(R.t>=sc.total){R.t=sc.total;R.on=false}running(sc);if(R.on)requestAnimationFrame(f)};requestAnimationFrame(f)}
+function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
+
+/* ---------- eventos ---------- */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a;
+  if(a==='go'){const s=+t.dataset.s;if((s>1&&!S.cname.trim())||(s>2&&!S.nLeads))return;S.step=s;S.run=null;stage()}
+  else if(a==='next'){S.step=Math.min(6,S.step+1);stage()}
+  else if(a==='back'){S.step=Math.max(1,S.step-1);stage()}
+  else if(a==='pick'){$('#file').click()}
+  else if(a==='paste'){S.paste=!S.paste;stage()}
+  else if(a==='doPaste'){importText($('#pt').value,'Lista colada')}
+  else if(a==='crm'){importText(sample(),'CRM · Reativação Comunidade');toast('Lista carregada do CRM (simulação)')}
+  else if(a==='ex'){importText(sample(),'lista_exemplo.csv')}
+  else if(a==='model'){downloadModel()}
+  else if(a==='swap'){S.data=null;S.limit=null;recompute();stage()}
+  else if(a==='all'){S.sel=new Set(chips.slice(0,S.acct).map(c=>c.i));stage()}
+  else if(a==='none'){S.sel=new Set();stage()}
+  else if(a==='tg'){const i=+t.dataset.i;S.sel.has(i)?S.sel.delete(i):S.sel.add(i);stage()}
+  else if(a==='fmt'){S.fmt=t.dataset.k;stage()}
+  else if(a==='ins'){const el=document.getElementById(S.focus&&document.getElementById(S.focus)?S.focus:(document.getElementById('tm_curta')?'tm_curta':'tm_baloes'));if(!el)return;if(!el)return;
+    const p=el.selectionStart??el.value.length;el.value=el.value.slice(0,p)+'{'+t.dataset.v+'}'+el.value.slice(el.selectionEnd??p);
+    el.focus();el.selectionStart=el.selectionEnd=p+t.dataset.v.length+2;el.dispatchEvent(new Event('input',{bubbles:true}))}
+  else if(a==='pv'){S.pv++;prev()}
+  else if(a==='pace'){S.pace=t.dataset.k;Object.assign(S,PRE[S.pace]);stage()}
+  else if(a==='who'){S.who=t.dataset.k;stage()}
+  else if(a==='fix'){const k=t.dataset.k,sc=sched(S);
+    if(k==='cap')S.limit=Math.max(1,S.nLeads-sc.over);
+    else if(k==='fit'){const win=(S.endH-S.startH)*60;S.limit=Math.max(1,sc.ev.filter(e=>e.t<=win).length)}
+    else if(k==='gap'){S.gapLo=5;S.gapHi=Math.max(8,S.gapHi);S.pace='custom'}
+    recompute();toast('Plano ajustado');stage()}
+  else if(a==='approve'){const sc0=sched(S);CAMPS.unshift({n:campName(),d:'hoje',sent:sc0.ev.length,resp:'—',opp:'—',st:'Em andamento'});registerTags();S.run={t:0,on:true};stage();loopRun()}
+  else if(a==='pause'){S.run.on=!S.run.on;if(S.run.on)loopRun();else running(sched(S))}
+  else if(a==='newc'){S.run=null;S.step=1;stage()}
+});
+document.addEventListener('focusin',e=>{if(/^tm_/.test(e.target.id))S.focus=e.target.id});
+document.addEventListener('input',e=>{const t=e.target;
+  if(t.id&&t.id.startsWith('tm_')){const m=S.models.find(x=>x.id===S.vsel[t.id.slice(3)]);if(m){m.text=t.value;prev();pbs(sched(S),true)}}});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.classList.contains('role')){const c=+t.dataset.c,v=t.value;
+    if(v==='nome'||v==='telefone'||v==='tags')S.roles.forEach((r,i)=>{if(r===v&&i!==c)S.roles[i]='extra'});S.roles[c]=v;recompute();stage()}
+  else if(t.id==='lim'){S.limit=t.value?Math.max(1,+t.value):null;recompute();stage()}
+  else if(t.dataset.f){S[t.dataset.f]=+t.value;if(['gapLo','gapHi','batch','handoff','rest'].includes(t.dataset.f))S.pace='custom';if(S.gapHi<S.gapLo)S.gapHi=S.gapLo;stage()}
+  else if(t.id==='acct'){S.acct=+t.value;S.sel=new Set(chips.slice(0,S.acct).map(c=>c.i));S.run=null;stage()}
+  else if(t.id==='file'&&t.files[0]){const f=t.files[0];if(/\.xlsx?$/i.test(f.name)){toast('Para Excel, salve como CSV ou use "Colar da planilha".');return}const r=new FileReader();r.onload=()=>importText(String(r.result),f.name);r.readAsText(f);t.value=''}});
+['dragover','dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{const d=e.target.closest&&e.target.closest('#drop');if(!d)return;e.preventDefault();
+  if(ev==='dragover')d.classList.add('over');else d.classList.remove('over');
+  if(ev==='drop'&&e.dataTransfer.files[0]){const f=e.dataTransfer.files[0];if(/\.xlsx?$/i.test(f.name)){toast('Para Excel, salve como CSV ou use "Colar da planilha".');return}const r=new FileReader();r.onload=()=>importText(String(r.result),f.name);r.readAsText(f)}}));
+addEventListener('resize',()=>{if(VIEW==='new'&&!S.run&&S.step>=5)stage();if(VIEW==='dash')renderDash()});
+S.sel=new Set(chips.slice(0,S.acct).map(c=>c.i));stage();
+
+/* ================= DASHBOARD ================= */
+let VIEW='dash';
+const D={tab:'ov',per:30,ticket:497};
+const CAMPS=[{n:'Reativação · Comunidade',d:'18/11',sent:412,resp:'27%',opp:44,st:'Concluída'},{n:'Recuperação de boleto',d:'15/11',sent:238,resp:'31%',opp:39,st:'Concluída'},{n:'Lista de espera',d:'12/11',sent:149,resp:'35%',opp:28,st:'Concluída'},{n:'Reengajamento 30 dias',d:'08/11',sent:560,resp:'19%',opp:36,st:'Concluída'}];
+const brl=n=>'R$ '+Math.round(n).toLocaleString('pt-BR'),fN=n=>Math.round(n).toLocaleString('pt-BR');
+const pct=(a,b)=>b?(a/b*100):0,p1=v=>v.toFixed(1).replace('.',',')+'%';
+function gen(per,seed){const r=rng(seed),days=[];for(let i=0;i<per;i++){const dow=i%7,w=(dow===5||dow===6)?.45:1,sent=Math.round((95+r()*70)*w),deliv=Math.round(sent*(.965+r()*.02)),resp=Math.round(deliv*(.22+r()*.07)),intr=Math.round(resp*(.30+r()*.08)),opp=Math.round(intr*(.42+r()*.12)),sale=Math.round(opp*(.18+r()*.10));days.push({sent,deliv,resp,intr,opp,sale})}return days}
+const K=['sent','deliv','resp','intr','opp','sale'];
+const tot=d=>{const t={};K.forEach(k=>t[k]=d.reduce((a,x)=>a+x[k],0));return t};
+function ddata(){const days=gen(D.per,100+D.per),T=tot(days),P=tot(gen(D.per,900+D.per));return{days,T,P}}
+const dlt=(a,b)=>{if(!b)return'';const v=(a-b)/b*100,up=v>=0;return `<span class="dl ${up?'up':'dn'}">${up?'▲':'▼'} ${Math.abs(v).toFixed(0)}%</span>`};
+const ticket=()=>D.ticket;
+function health(T){const entrega=T.deliv/T.sent,optout=.004,boas=chips.slice(0,S.acct).filter(c=>c.h==='boa').length,tt=S.acct,score=Math.max(60,Math.round(100-(1-entrega)*300-optout*400-(tt-boas)*2.5));return{score,entrega,optout,boas,tt}}
+function ring(score){const r=52,c=2*Math.PI*r,col=score>=85?'#34d399':score>=70?'#fbbf24':'#fb7185';
+  return `<svg viewBox="0 0 130 130"><circle cx="65" cy="65" r="${r}" fill="none" stroke="#ffffff14" stroke-width="10"/><circle cx="65" cy="65" r="${r}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c*score/100} ${c}" transform="rotate(-90 65 65)"/><text x="65" y="63" text-anchor="middle" font-size="32" font-weight="800" fill="#e8eefc">${score}</text><text x="65" y="82" text-anchor="middle" font-size="11" fill="#93a0b8">de 100</text></svg>`}
+function hourRates(){const r=rng(55+D.per);return Array.from({length:12},(_,i)=>{const h=8+i;return{h,v:.19+.11*Math.exp(-(((h-10.5)/2.2)**2))+.07*Math.exp(-(((h-16.5)/1.8)**2))+r()*.02}})}
+function fmtRates(){const r=rng(77+D.per),E=elig().length?elig():S.models;return E.map((m,i)=>[lab(m),.2+((i*37+D.per)%13)/100+r()*.01])}
+function chart(days){const W=760,H=210,pl=34,pb=24,n=days.length,mx=Math.max(...days.map(d=>d.sent)),bw=(W-pl)/n,y=v=>H-pb-(v/mx)*(H-pb-14);
+  const dt=i=>{const d=new Date(2026,10,20-(n-1-i));return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')};
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%">`;
+  [0,.5,1].forEach(f=>{const yy=y(mx*f);s+=`<line x1="${pl}" x2="${W}" y1="${yy}" y2="${yy}" stroke="#1c2848"/><text x="2" y="${yy+4}" font-size="10" fill="#5d6a82">${Math.round(mx*f)}</text>`});
+  days.forEach((d,i)=>{s+=`<rect x="${pl+i*bw+1}" y="${y(d.sent)}" width="${Math.max(1,bw-2)}" height="${H-pb-y(d.sent)}" rx="2" fill="#8b5cf655"><title>${dt(i)}: ${d.sent} enviadas, ${d.resp} respostas</title></rect>`});
+  s+=`<polyline fill="none" stroke="#22d3ee" stroke-width="2.2" points="${days.map((d,i)=>`${pl+i*bw+bw/2},${y(d.resp)}`).join(' ')}"/>`;
+  [0,Math.floor(n/2),n-1].forEach(i=>s+=`<text x="${pl+i*bw}" y="${H-6}" font-size="10" fill="#5d6a82">${dt(i)}</text>`);
+  return s+'</svg>'}
+const AVC=['#22d3ee','#8b5cf6','#34d399','#fbbf24','#f472b6'];
+const HOT=[['Maria Souza','“Quanto custa? Posso parcelar?”',22,'Quente'],['Ana Lima','“Quero saber como entro”',48,'Quente'],['Joana Reis','“Pode me ligar amanhã?”',75,'Quente'],['Carla Dias','“Me manda o link”',130,'Em risco'],['Beatriz Melo','“Tenho interesse sim”',190,'Em risco'],['Lúcia Rocha','“Como funciona o acesso?”',35,'Quente']];
+const waitTxt=m=>m<60?`${m} min`:`${Math.floor(m/60)}h${String(m%60).padStart(2,'0')}`;
+function renderDash(){
+  const {days,T,P}=ddata(),H=health(T),tk=ticket(),per=D.per;
+  const respRate=pct(T.resp,T.deliv),respP=pct(P.resp,P.deliv),hr=hourRates(),best=hr.reduce((a,b)=>b.v>a.v?b:a),fr=fmtRates(),bm=fr.reduce((a,b)=>b[1]>a[1]?b:a),wm=fr.reduce((a,b)=>b[1]<a[1]?b:a);
+  const semRet=Math.round(T.resp*.045),semFu=Math.round(T.intr*.16),saiu=Math.round(T.sent*.004),inv=Math.round(T.sent*.012),falha=T.sent-T.deliv;
+  const pSale=T.sale/T.intr,risco=(semRet+semFu)*pSale*tk,quentes=HOT.length;
+  const head=`<div class="dh"><h1>Dashboard</h1><div class="seg2">${[7,30,90].map(v=>`<button class="${D.per===v?'on':''}" data-a="dper" data-v="${v}">${v} dias</button>`).join('')}</div><div style="flex:1"></div><span class="pill2">Dados de demonstração</span></div>
+  <div class="tabs2">${[['ov','Visão geral'],['op','Oportunidades'],['pf','Desempenho']].map(([k,l])=>`<button class="tb ${D.tab===k?'on':''}" data-a="dtab" data-k="${k}">${l}</button>`).join('')}</div>`;
+  let b='';
+  if(D.tab==='ov'){
+    b=`<div class="hero"><div><p class="st">Nos últimos <b>${per} dias</b> você falou com <b>${fN(T.deliv)} pessoas</b>. <b>${fN(T.resp)}</b> responderam, <b>${fN(T.opp)}</b> viraram oportunidade e <b>${fN(T.sale)}</b> compraram. Há <b>${quentes} conversas quentes</b> esperando você agora.</p>
+      <ul class="disc"><li>${fr.length>1?`A variação <b>“${esc(bm[0])}”</b> responde <b>${((bm[1]-wm[1])*100).toFixed(0)} pontos a mais</b> que o “${esc(wm[0])}”.`:'Crie mais de uma variação de mensagem para descobrir qual responde melhor.'}</li><li>O melhor horário para enviar é <b>${best.h}h</b>, com ${p1(best.v*100)} de resposta.</li><li>${H.boas} de ${H.tt} chips estão saudáveis e nenhum foi bloqueado no período.</li></ul></div>
+      <div class="score">${ring(H.score)}<div class="tt">Saúde da operação</div><div class="ss">Entrega ${p1(H.entrega*100)}<br>Pedidos para sair ${p1(H.optout*100)}<br>Chips saudáveis ${H.boas}/${H.tt}</div></div></div>
+    <div class="k4">
+      <div class="kc"><span class="l">Mensagens enviadas</span><b class="v">${fN(T.sent)}</b><small>${dlt(T.sent,P.sent)} vs período anterior</small></div>
+      <div class="kc"><span class="l">Taxa de resposta</span><b class="v">${p1(respRate)}</b><small>${dlt(respRate,respP)} vs período anterior</small></div>
+      <div class="kc"><span class="l">Oportunidades</span><b class="v">${fN(T.opp)}</b><small>${dlt(T.opp,P.opp)} · ≈ ${brl(T.opp*tk*.35)} em negociação*</small></div>
+      <div class="kc"><span class="l">Vendas</span><b class="v">${fN(T.sale)}</b><small>${dlt(T.sale,P.sale)} · ≈ ${brl(T.sale*tk)} faturados*</small></div></div>
+    <div class="pn"><h3>Do envio até a venda</h3><p class="sb2">Cada etapa mostra quantas pessoas chegaram até ali.</p>
+      ${[['Enviadas',T.sent],['Entregues',T.deliv],['Responderam',T.resp],['Interessados',T.intr],['Oportunidades',T.opp],['Vendas',T.sale]].map((s,i,a)=>`<div class="fn"><div>${s[0]}</div><div><div class="bar2" style="width:${Math.max(2,s[1]/T.sent*100)}%"></div></div><div><span class="n">${fN(s[1])}</span> <span class="c">${i?p1(pct(s[1],a[i-1][1]))+' da etapa anterior':''}</span></div></div>`).join('')}</div>
+    <div class="pn"><h3>Envios e respostas por dia</h3><p class="sb2"><span style="color:#a78bfa">▮</span> enviadas &nbsp; <span style="color:#22d3ee">━</span> respostas</p>${chart(days)}</div>
+    <div class="note">* Estimativa com ticket médio de ${brl(tk)} e 35% das oportunidades em negociação ativa. Em produção, vem do CRM e da plataforma de pagamento.</div>`}
+  else if(D.tab==='op'){
+    b=`<div class="g2"><div class="pn"><h3>Oportunidades quentes</h3><p class="sb2">Pessoas que responderam com interesse. Quanto antes responder, maior a chance.</p>
+      ${HOT.map((h,i)=>`<div class="opp"><div class="av" style="background:${AVC[i%5]}">${h[0][0]}</div><div class="m"><b>${h[0]}</b><span>${h[1]}</span></div><div style="text-align:right"><span class="pill2 ${h[3]==='Quente'?'ok':'warn'}">${h[3]}</span><div class="hint" style="margin-top:3px">há ${waitTxt(h[2])}</div></div><button class="btn sm" data-a="open">Abrir</button></div>`).join('')}
+      <div class="note">${fN(Math.round(T.intr*.22))} oportunidades abertas no total.</div></div>
+    <div class="pn"><h3>O que está escapando</h3><p class="sb2">Cada item tem um caminho de ação.</p>
+      <div class="loss hot"><div class="big2" style="color:var(--bad)">${semRet}</div><div class="t"><b>Responderam e ficaram sem retorno</b><span>Esperam há mais de 2 horas. Risco estimado de ${brl(semRet*pSale*tk)}.</span></div><button class="btn sm" data-a="open">Responder</button></div>
+      <div class="loss hot"><div class="big2" style="color:var(--warn)">${semFu}</div><div class="t"><b>Interessados sem acompanhamento</b><span>Mostraram interesse e pararam de receber contato. ${brl(semFu*pSale*tk)} em risco*.</span></div><button class="btn sm" data-a="open">Ver lista</button></div>
+      <div class="loss"><div class="big2">${inv}</div><div class="t"><b>Telefones inválidos</b><span>Foram barrados antes do envio e não gastam o limite dos chips.</span></div><button class="btn sm" data-a="open">Corrigir</button></div>
+      <div class="loss"><div class="big2">${falha}</div><div class="t"><b>Mensagens não entregues</b><span>${p1(pct(falha,T.sent))} do total. Dentro do esperado.</span></div></div>
+      <div class="loss good"><div class="big2" style="color:var(--ok)">${saiu}</div><div class="t"><b>Pediram para sair</b><span>Já removidos. Ninguém recebe mensagem de novo depois do pedido.</span></div><span class="pill2 ok">protegido</span></div></div></div>
+    <div class="note">* Estimativas com ticket médio de ${brl(tk)} e a taxa de venda dos interessados do período.</div>`}
+  else{
+    const chs=chips.slice(0,S.acct),rr=rng(300+D.per);
+    b=`<div class="g2"><div class="pn"><h3>Qual variação responde mais</h3><p class="sb2">Taxa de resposta por variação de mensagem.</p>${fr.map((f,i)=>`<div class="brow"><span>${f[0]}</span><div class="b"><i class="${f===bm?'best':''}" style="width:${f[1]*100/.35*100/100}%"></i></div><b>${p1(f[1]*100)}</b></div>`).join('')}
+      <div class="note">Mais variações deixam o envio menos repetitivo e mostram o que responde melhor.</div></div>
+    <div class="pn"><h3>Melhor horário para enviar</h3><p class="sb2">Taxa de resposta por hora do dia.</p>${hr.map(x=>`<div class="brow"><span>${x.h}h</span><div class="b"><i class="${x.h===best.h?'best':''}" style="width:${x.v*100/.35*100/100}%"></i></div><b>${p1(x.v*100)}</b></div>`).join('')}</div></div>
+    <div class="pn"><h3>Saúde dos chips</h3><p class="sb2">Quanto cada número enviou e como está.</p>
+      <table><thead><tr><th>Chip</th><th>Saúde</th><th>Enviadas no período</th><th>Falhas</th><th>Uso do limite hoje</th></tr></thead><tbody>${chs.map(c=>{const e=Math.round(T.sent/chs.length*(.7+rr()*.6)),fl=(c.h==='boa'?.8:c.h==='atenção'?2.4:1.6)+rr()*.5,u=Math.round(20+rr()*65);return `<tr><td><span style="color:${col(c.i)}">●</span> Chip ${c.i+1}</td><td><span class="pill2 ${c.h==='boa'?'ok':c.h==='atenção'?'warn':''}">${c.h}</span></td><td>${fN(e)}</td><td>${p1(fl)}</td><td><div style="height:7px;background:#ffffff12;border-radius:9px;width:120px;overflow:hidden"><div style="width:${u}%;height:100%;background:${col(c.i)}"></div></div></td></tr>`}).join('')}</tbody></table></div>`}
+  $('#vDash').innerHTML=`<div class="pgw">${head}${b}</div>`}
+function renderCamps(){
+  $('#vCamp').innerHTML=`<div class="pgw"><div class="dh"><h1>Campanhas</h1><div style="flex:1"></div><button class="btn pri" data-a="view" data-v="new">+ Nova campanha</button></div>
+  <div class="pn"><table><thead><tr><th>Campanha</th><th>Data</th><th>Enviadas</th><th>Resposta</th><th>Oportunidades</th><th>Situação</th></tr></thead><tbody>${CAMPS.map(c=>`<tr><td><b>${esc(c.n)}</b></td><td>${c.d}</td><td>${fN(c.sent)}</td><td>${c.resp}</td><td>${c.opp}</td><td><span class="pill2 ${c.st==='Concluída'?'ok':'warn'}">${c.st}</span></td></tr>`).join('')}</tbody></table></div></div>`}
+function showView(v){VIEW=v;document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  $({dash:'#vDash',camp:'#vCamp',tags:'#vTags',new:'#vNew'}[v]).classList.add('on');
+  document.querySelectorAll('.nv[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v&&!b.classList.contains('cta')));
+  if(v==='dash')renderDash();else if(v==='camp')renderCamps();else if(v==='tags')renderTags();else{if(S.run&&S.run.t>=sched(S).total){S.run=null;S.step=1}stage()}}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a;
+  if(a==='view')showView(t.dataset.v);
+  else if(a==='dper'){D.per=+t.dataset.v;renderDash()}
+  else if(a==='dtab'){D.tab=t.dataset.k;renderDash()}
+  else if(a==='open')toast('Abriria a conversa no atendimento (simulação)')});
+/* ================= MODELOS, ETIQUETAS E RASTREIO ================= */
+let MID=10;
+function elig(){return S.models.filter(m=>m.on&&(S.fmt==='mix'||m.kind===(S.fmt==='curta'?'curta':'baloes')))}
+function ofKind(k){return S.models.filter(m=>m.kind===k)}
+function lab(m){return(m.kind==='curta'?'Curta ':'Balões ')+(ofKind(m.kind).indexOf(m)+1)}
+function mlines(m){return m.kind==='curta'?[m.text.replace(/\n+/g,' ').trim()]:m.text.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,4)}
+function nBal(m){return Math.max(1,mlines(m).length)}
+function modelW(){const E=elig(),c=E.filter(m=>m.kind==='curta').length,b=E.filter(m=>m.kind==='baloes').length,both=c&&b&&S.fmt==='mix';return S.models.map(m=>E.includes(m)?(both?.5:1)/(m.kind==='curta'?c:b):0)}
+function modelIdx(i){const w=modelW(),tt=w.reduce((a,b)=>a+b,0);if(!tt)return 0;const u=((i*0.618034)%1)*tt;let a=0;for(let k=0;k<w.length;k++){a+=w[k];if(u<a)return k}return w.length-1}
+function modelCounts(){const c=S.models.map(()=>0);for(let i=0;i<S.nLeads;i++)c[modelIdx(i)]++;return c}
+function modelTag(idx){return 'modelo-'+(elig().indexOf(S.models[idx])+1)}
+function verSec(kind){const L=ofKind(kind),cur=L.find(m=>m.id===S.vsel[kind])||L[0];if(cur)S.vsel[kind]=cur.id;const cnt=modelCounts();
+  const title=kind==='curta'?'Versão curta <span class="hint">· 1 balão</span>':'Versão em balões <span class="hint">· um por linha, até 4</span>';
+  return `<div class="vsec"><div class="lbl" style="display:flex;justify-content:space-between;align-items:center"><span>${title}</span><span class="hint">${L.length} variaç${L.length===1?'ão':'ões'}</span></div>
+  <div class="vtabs">${L.map((m,i)=>`<button class="vt ${cur&&m.id===cur.id?'on':''} ${m.on?'':'off'}" data-a="vsel" data-k="${kind}" data-id="${m.id}">${i+1}<small>${cnt[S.models.indexOf(m)]||0} env.</small></button>`).join('')}<button class="vt add" data-a="vadd" data-k="${kind}" title="Nova variação">+</button></div>
+  ${cur?`<textarea id="tm_${kind}" rows="${kind==='curta'?3:5}">${esc(cur.text)}</textarea>
+  <div class="vact"><label class="chk2" style="padding:0"><input type="checkbox" data-von="${cur.id}" ${cur.on?'checked':''}> Usar esta variação</label><span class="sp"></span><button class="btn sm" data-a="vdup" data-k="${kind}">Duplicar</button><button class="btn sm" data-a="vdel" data-k="${kind}" ${L.length<2?'disabled':''}>Excluir</button></div>`:'<div class="hint">Sem variações. Clique em +.</div>'}
+  <div class="vact"><button class="q" data-a="vbulk" data-k="${kind}">Colar várias</button><button class="q" data-a="vsug" data-k="${kind}">✨ Criar variações</button></div>
+  ${S.bulk===kind?`<div class="lbl">Cole suas variações. Separe cada uma com uma linha contendo <b>---</b></div><textarea id="bt" rows="7" placeholder="Oi {nome}, tudo bem?&#10;---&#10;Olá {nome}! Vi seu interesse."></textarea><div style="margin-top:8px"><button class="btn pri sm" data-a="mdoBulk">Importar</button></div>`:''}</div>`}
+function tslug(s){return norm(s).replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')}
+function campName(){return S.cname||(S.data?S.data.name.replace(/\.[a-z]+$/i,''):'Nova campanha')}
+function rt(t){return t.replace(/\{campanha\}/g,tslug(campName()))}
+function tagColor(t){let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))%997;return PAL[h%PAL.length]}
+function contactTags(leadIdx,stage){const out=[];const E=S.ev,sc=sched(S),e=sc.ev.find(x=>x.l===leadIdx);
+  if(S.ltScope==='all'||stage>=1){S.lt.forEach(t=>out.push({t,s:S.ltScope==='all'?0:1}));((S.valid[leadIdx]||{}).tg||[]).forEach(t=>out.push({t,s:0}))}
+  if(stage>=1){if(E.sent.on)E.sent.tags.forEach(t=>out.push({t:rt(t),s:1}));
+    if(S.auto.modelo)out.push({t:modelTag(modelIdx(leadIdx)),s:1});
+    if(S.auto.chip)out.push({t:'chip-'+((e?e.c:([...S.sel][0]||0))+1),s:1});
+    if(S.auto.data)out.push({t:'envio-2026-11-20',s:1});
+    if(S.auto.lista)out.push({t:'lista-'+tslug(S.data?S.data.name.replace(/\.[a-z]+$/i,''):'lista'),s:1})}
+  if(stage>=2&&E.resp.on)E.resp.tags.forEach(t=>out.push({t:rt(t),s:2}));
+  if(stage>=3&&E.intr.on)E.intr.tags.forEach(t=>out.push({t:rt(t),s:3}));
+  if(stage>=4)E.optout.tags.forEach(t=>out.push({t:rt(t),s:4}));
+  return out}
+function utmUrl(mi){const m=(S.models.find(x=>/https?:\/\/\S+/.test(x.text))||{text:''}).text.match(/https?:\/\/[^\s]+/);const base=m?m[0]:'https://seusite.com/oferta';
+  return `${base}?utm_source=whatsapp&utm_medium=disparo&utm_campaign=${tslug(campName())}&utm_content=modelo-${mi}`}
+function summaryHtml(){const E=elig();
+  return `<div class="hint" style="margin-bottom:8px">Campanha <b>${esc(campName())}</b> · ${{mix:'Misturada',curta:'1 balão',baloes:'Vários balões'}[S.fmt]} · ${E.length} variaç${E.length===1?'ão':'ões'}</div>
+  <div class="tagrow" style="margin:6px 0">${S.lt.map(t=>`<span class="tagp" style="--tc:${tagColor(t)}">+ ${esc(t)}</span>`).join('')}${S.lr.map(t=>`<span class="tagp rm" style="--tc:#fb7185">− ${esc(t)}</span>`).join('')}${!S.lt.length&&!S.lr.length?'<span class="hint">Sem etiquetas</span>':''}</div>`}
+function tagAdd(raw){const add=S.tmode!=='rem',miss=[];raw.split(/[,;]/).map(tslug).filter(Boolean).forEach(v=>{
+  if(add){if(!S.lt.includes(v))S.lt.push(v);S.lr=S.lr.filter(x=>x!==v)}
+  else{if(!TAGS.some(t=>t.n===v)){miss.push(v);return}if(!S.lr.includes(v))S.lr.push(v);S.lt=S.lt.filter(x=>x!==v)}});return miss}
+function tagDel(i){(S.tmode==='rem'?S.lr:S.lt).splice(i,1)}
+function poolHtml(q){const add=S.tmode!=='rem',sel=add?S.lt:S.lr,ex=TAGS.filter(t=>!t.locked).map(t=>t.n),f=tslug(q||'');
+  let L=ex.filter(n=>!sel.includes(n)&&(!f||n.includes(f))).slice(0,12),h='';
+  if(add&&f&&!ex.includes(f)&&!S.lt.includes(f))h+=`<span class="var new" data-a="tpick" data-t="${esc(f)}">+ criar “${esc(f)}”</span>`;
+  h+=L.map(n=>`<span class="var" data-a="tpick" data-t="${esc(n)}">${esc(n)}</span>`).join('');
+  return h||'<span class="hint">Nenhuma etiqueta encontrada.</span>'}
+function tagsHtml(){const add=S.tmode!=='rem',sel=add?S.lt:S.lr,ex=TAGS.filter(t=>!t.locked).map(t=>t.n);
+  return `<div class="lbl">Etiquetas</div>
+  <div class="seg"><button class="${add?'on':''}" data-a="tmode" data-k="add">Adicionar${S.lt.length?' · '+S.lt.length:''}</button><button class="${add?'':'on'}" data-a="tmode" data-k="rem">Remover${S.lr.length?' · '+S.lr.length:''}</button></div>
+  <div class="tagbox"><div class="tagrow" style="margin:0">${sel.map((x,i)=>`<span class="tagp ${add?'':'rm'}" style="--tc:${add?tagColor(x):'#fb7185'}">${esc(x)}${add&&!ex.includes(x)?'<em>nova</em>':''}<u data-a="tx" data-i="${i}">×</u></span>`).join('')}<input class="tgin" id="tin" placeholder="${add?'Digite para criar ou buscar…':'Buscar etiqueta…'}" autocomplete="off"></div></div>
+  <div class="hint" style="margin:12px 0 6px">${add?'Já existentes · clique para adicionar':'Clique para remover dos contatos'}</div><div id="tpool">${poolHtml('')}</div>
+  <div class="hint" style="margin-top:14px">${S.nLeads?`Vale para os ${S.nLeads} contatos da lista.`:'Vale para todos os contatos que você importar.'}${S.lt.length?' Adiciona '+S.lt.map(x=>'“'+x+'”').join(', ')+'.':''}${S.lr.length?' Remove '+S.lr.map(x=>'“'+x+'”').join(', ')+'.':''}</div>`}
+function focusTin(){const i=document.getElementById('tin');if(i)i.focus()}
+
+function sug(kind){const cur=ofKind(kind).find(m=>m.id===S.vsel[kind])||ofKind(kind)[0];if(!cur)return;
+  const G=['Olá','Opa','E aí','Fala','Oi'],C=['Quer que eu te conte como funciona?','Faz sentido pra você?','Posso te mandar os detalhes?','Te ajudo por aqui?','Posso te explicar rapidinho?'];
+  const room=Math.min(5,12-S.models.length);if(room<=0){toast('Limite de 12 variações');return}
+  for(let k=0;k<room;k++){let L=cur.text.split('\n');L[0]=/^(Oi|Olá|Opa|E aí|Fala)\b/.test(L[0])?L[0].replace(/^(Oi|Olá|Opa|E aí|Fala)\b/,G[(k+1)%G.length]):G[(k+1)%G.length]+', '+L[0];
+    if(L.length>1)L[L.length-1]=C[k%C.length];else L[0]+=' '+C[k%C.length];
+    S.models.push({id:++MID,kind:kind,text:L.join('\n'),on:true})}
+  toast(room+' variações de exemplo criadas. Revise antes de usar.');S.vsel[kind]=MID}
+function listTagsHtml(){const sg=[...new Set(['dia-das-mulheres',...TAGS.filter(t=>!t.locked).slice(0,5).map(t=>t.n)])].filter(x=>!S.lt.includes(x)).slice(0,5);
+  return `<div class="lbl" style="margin-top:18px">Etiquetas para estes contatos <span class="hint">· marque quem participou desta ação</span></div><div class="ltbox"><div class="tagrow" style="margin:12px 0 8px">${S.lt.map((x,i)=>`<span class="tagp" style="--tc:${tagColor(x)}">${esc(x)}<u data-a="ltdel" data-i="${i}">×</u></span>`).join('')}<input class="tgin" data-lt="1" placeholder="Ex.: dia-das-mulheres" style="width:200px"></div>
+  <div class="hint">Sugestões: ${sg.map(x=>`<span class="var" data-a="ltadd" data-t="${x}">${x}</span>`).join('')}</div>
+  ${S.lt.length?`<div class="seg" style="margin-top:12px"><button class="${S.ltScope==='all'?'on':''}" data-a="ltscope" data-k="all">Todos os ${S.nLeads} da lista</button><button class="${S.ltScope==='sent'?'on':''}" data-a="ltscope" data-k="sent">Só quem receber a mensagem</button></div><div class="hint" style="margin-top:6px">${S.ltScope==='all'?`Os ${S.nLeads} contatos ficam com ${S.lt.map(x=>'“'+x+'”').join(', ')} no CRM, mesmo que a mensagem não chegue.`:'A etiqueta é aplicada quando a mensagem sair.'}</div>`:'<div class="hint" style="margin-top:6px">Digite uma etiqueta e aperte Enter. Vale para todos os contatos da lista. Vários de uma vez: separe por vírgula.</div>'}
+  ${S.roles.includes('tags')?'<div class="hint" style="margin-top:8px">A coluna de etiquetas da sua planilha também é aplicada, contato a contato.</div>':''}</div>`}
+/* registro de etiquetas */
+function addTag(n,c,camp){const t=TAGS.find(x=>x.n===n);if(t){t.c+=c;t.use='agora'}else TAGS.unshift({n,c,camp,use:'agora'})}
+function registerTags(){const cn=campName(),n=S.nLeads;addTag('campanha-'+tslug(cn),n,cn);S.lt.forEach(t=>addTag(t,n,cn));
+  S.lr.forEach(t=>{const x=TAGS.find(y=>y.n===t);if(x){x.c=Math.max(0,x.c-n);x.use='agora'}});
+  const sh={};S.valid.forEach(l=>(l.tg||[]).forEach(t=>sh[t]=(sh[t]||0)+1));Object.keys(sh).forEach(t=>addTag(t,sh[t],cn))}
+function renderTags(){const q=S.tq.toLowerCase(),L=TAGS.filter(t=>t.n.includes(q));
+  $('#vTags').innerHTML=`<div class="pgw"><div class="dh"><h1>Etiquetas</h1><input class="inp srch" id="tq" placeholder="Buscar etiqueta…" value="${esc(S.tq)}"><div style="flex:1"></div><input class="inp srch" id="tnew" placeholder="+ Nova etiqueta (Enter)" style="max-width:240px"></div>
+  <div class="pn"><p class="sb2" style="margin-top:0">Tudo que o disparo marca nos contatos fica aqui. Se o CRM estiver conectado, as mesmas etiquetas aparecem lá.</p>
+  <table><thead><tr><th>Etiqueta</th><th>Contatos</th><th>Origem</th><th>Último uso</th><th></th></tr></thead><tbody>${L.map(t=>`<tr><td><span class="tagp" style="--tc:${tagColor(t.n)}">${esc(t.n)}</span>${t.locked?' <span class="hint">protegida</span>':''}</td><td>${fN(t.c)}</td><td>${esc(t.camp)}</td><td>${t.use}</td><td style="text-align:right"><button class="btn sm" data-a="texp" data-n="${esc(t.n)}">Exportar</button> ${t.locked?'':`<button class="btn sm" data-a="tdel" data-n="${esc(t.n)}">Remover</button>`}</td></tr>`).join('')||'<tr><td colspan="5" class="hint">Nada encontrado.</td></tr>'}</tbody></table></div></div>`}
+/* eventos novos */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a,id=+t.dataset.id,k=t.dataset.k;
+  if(a==='vsel'){S.vsel[k]=id;stage()}
+  else if(a==='vadd'){if(S.models.length>=12){toast('Limite de 12 variações');return}S.models.push({id:++MID,kind:k,text:k==='curta'?'Oi {nome}, tudo bem?':'Oi {nome}, tudo bem?\nPosso te ajudar?',on:true});S.vsel[k]=MID;stage()}
+  else if(a==='vdup'){const m=S.models.find(x=>x.id===S.vsel[k]);if(m&&S.models.length<12){S.models.push({...m,id:++MID});S.vsel[k]=MID;stage()}}
+  else if(a==='vdel'){if(ofKind(k).length>1){S.models=S.models.filter(x=>x.id!==S.vsel[k]);S.vsel[k]=ofKind(k)[0].id;stage()}}
+  else if(a==='vbulk'){S.bulk=S.bulk===k?null:k;stage()}
+  else if(a==='mdoBulk'){const kk=S.bulk,parts=$('#bt').value.split(/^\s*---+\s*$/m).map(x=>x.trim()).filter(Boolean);if(!parts.length){toast('Cole pelo menos uma variação');return}
+    const room=12-S.models.length;parts.slice(0,room).forEach(p=>S.models.push({id:++MID,kind:kk,text:kk==='curta'?p.replace(/\n+/g,' '):p,on:true}));S.vsel[kk]=MID;S.bulk=null;toast(Math.min(parts.length,room)+' variações importadas');stage()}
+  else if(a==='vsug'){sug(k);stage()}
+  else if(a==='ltdel'){S.lt.splice(+t.dataset.i,1);stage()}
+  else if(a==='ltadd'){if(!S.lt.includes(t.dataset.t))S.lt.push(t.dataset.t);stage()}
+  else if(a==='ltscope'){S.ltScope=k;stage()}
+  else if(a==='evon'){if(!S.ev[k].locked){S.ev[k].on=!S.ev[k].on;stage()}}
+  else if(a==='tgdel'){S.ev[k].tags.splice(+t.dataset.i,1);stage()}
+  else if(a==='cst'){S.cst=+t.dataset.s;stage()}
+  else if(a==='texp'){toast('Exportaria os contatos da etiqueta “'+t.dataset.n+'” (simulação)')}
+  else if(a==='tdel'){const i=TAGS.findIndex(x=>x.n===t.dataset.n);if(i>=0){TAGS.splice(i,1);renderTags();toast('Etiqueta removida (só do cadastro)')}}
+});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.dataset.lt){t.value.split(/[,;]/).map(tslug).filter(Boolean).forEach(v=>{if(!S.lt.includes(v))S.lt.push(v)});stage()}
+  else if(t.dataset.von){const m=S.models.find(x=>x.id===+t.dataset.von);if(m){m.on=t.checked;stage()}}
+  else if(t.dataset.ev){const v=tslug(t.value);if(v&&!S.ev[t.dataset.ev].tags.includes(v))S.ev[t.dataset.ev].tags.push(v);stage()}
+  else if(t.dataset.au){S.auto[t.dataset.au]=t.checked;stage()}
+  else if(t.id==='utm'){S.utm=t.checked;stage()}
+  else if(t.id==='sync'){S.sync=t.checked;stage()}
+  else if(t.id==='cn'){S.cname=t.value.trim()}
+  else if(t.dataset.w){const m=S.models.find(x=>x.id===+t.dataset.w);if(m){m.w=Math.max(0,+t.value||0);stage()}}
+  else if(t.id==='tq'){S.tq=t.value;renderTags();const i=$('#tq');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}}
+  else if(t.id==='tnew'){const v=tslug(t.value);if(v){addTag(v,0,'Manual');renderTags()}}});
+document.addEventListener('input',e=>{if(e.target.id==='tq'){S.tq=e.target.value;renderTags();const i=$('#tq');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}}});
+
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a;
+  if(a==='tmode'){S.tmode=t.dataset.k;stage();focusTin()}
+  else if(a==='tpick'){tagAdd(t.dataset.t);stage();focusTin()}
+  else if(a==='tx'){tagDel(+t.dataset.i);stage();focusTin()}});
+document.addEventListener('keydown',e=>{if(e.target.id!=='tin')return;if(e.key==='Enter'||e.key===','){e.preventDefault();const miss=tagAdd(e.target.value);if(miss.length)toast('Essa etiqueta não existe: '+miss[0]);stage();focusTin()}});
+document.addEventListener('input',e=>{const t=e.target;
+  if(t.id==='tin'){const p=document.getElementById('tpool');if(p)p.innerHTML=poolHtml(t.value)}
+  else if(t.id==='cn'){S.cname=t.value;const b=document.querySelector('#stage [data-a=next]');if(b)b.disabled=!S.cname.trim();steps();side()}});
+
+showView('dash');
+
+</script>
+</body>
+</html>
